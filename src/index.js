@@ -1,8 +1,9 @@
+const RUN_TESTS = true;
+
 const upload = document.getElementById("upload");
 const preview = document.getElementById("json-preview");
 
 let data;
-// const DEBUG = true;
 
 /*
  * @param {js object} data 
@@ -26,7 +27,7 @@ function loadFromLocalStorage() {
   }
 }
 
-function loadLocalJSON() {
+function loadJSONFile() {
   const file = upload.files[0];
   if (file) {
     const reader = new FileReader();
@@ -41,5 +42,5 @@ function loadLocalJSON() {
   }
 }
 
-upload.addEventListener('change', loadLocalJSON);
+upload.addEventListener('change', loadJSONFile);
 loadFromLocalStorage();
