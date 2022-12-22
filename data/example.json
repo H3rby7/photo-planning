@@ -4,10 +4,10 @@
     {"name": "Kim"}
   ],
   "characters": [
-    {"protagonist": "Alex"},
-    {"antagonist": "Kim"}
+    {"characterName": "protagonist", "person": "Alex"},
+    {"characterName": "antagonist", "person": "Kim"}
   ],
-  "shot": [
+  "shots": [
     {
       "shotName": "opening number",
       "characters": [

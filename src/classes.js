@@ -1,3 +1,21 @@
+InputData = class InputData {
+  constructor(people, characters, shots) {
+    this.people = people;
+    this.characters = characters;
+    this.shots = shots;
+  }
+
+  static fromJSON(json) {
+    checkJsonMissesProperty('InputData', json, 'people', true);
+    checkJsonMissesProperty('InputData', json, 'characters', true);
+    checkJsonMissesProperty('InputData', json, 'shots', true);
+    const people = json.people.map(Person.fromJSON);
+    const characters = json.characters.map(c => Character.fromJSON(c, people));
+    const shots = json.shots.map(s => Shot.fromJSON(s, characters));
+    return new InputData(people, characters, shots);
+  }
+}
+
 Shot = class Shot {
   /*
   * @param {string} name = id
@@ -10,25 +28,13 @@ Shot = class Shot {
     this.location = location;
   }
 
-  static fromJSON(json) {
-    if (!json.shotName) {
-      throw `'${json}' must define 'shotName'`;
-    }
-    if (!json.characters) {
-      throw `'${json}' must define 'characters[]'`;
-    }
-    if (!Array.isArray(json.characters)) {
-      throw `'characters' must be an array, but is '${json.characters}'`;
-    }
-    if (!json.props) {
-      throw `'${json}' must define 'props'.`;
-    }
-    if (!Array.isArray(json.props)) {
-      throw `'props' must be an array, but is '${json.props}'`;
-    }
-    return Shot(
+  static fromJSON(json, characters) {
+    checkJsonMissesProperty('Shot', json, 'shotName');
+    checkJsonMissesProperty('Shot', json, 'characters', true);
+    checkJsonMissesProperty('Shot', json, 'props', true);
+    return new Shot(
       json.shotName,
-      json.characters.map(CharacterInScene.ffromJSON),
+      json.characters.map(c => CharacterInScene.fromJSON(c, characters)),
       json.props,
       json.location
     );
@@ -44,11 +50,13 @@ CharacterInScene = class CharacterInScene {
     this.costume = costume;
   }
 
-  static fromJSON(json) {
-    if (!json.character || !json.costume) {
-      throw `'${json}' is not a definition of a character in a scene.`;
-    }
-    return CharacterInScene(Character.fromJSON(json.character), json.costume);
+  static fromJSON(json, characters) {
+    checkJsonMissesProperty('CharacterInScene', json, 'character');
+    checkJsonMissesProperty('CharacterInScene', json, 'costume');
+    return new CharacterInScene(
+      characters.find(c => c.characterName === json.character),
+      json.costume
+    );
   }
 }
 
@@ -56,16 +64,18 @@ Character = class Character {
   /*
   * @param name = id
   */
-  constructor(name, person) {
-    this.name = name;
+  constructor(characterName, person) {
+    this.characterName = characterName;
     this.person = person;
   }
 
-  static fromJSON(json) {
-    if (!json.name || !json.person) {
-      throw `'${json}' is not a character`;
-    }
-    return Character(json.name, Person.fromJSON(json.person));
+  static fromJSON(json, people) {
+    checkJsonMissesProperty('Character', json, 'characterName');
+    checkJsonMissesProperty('Character', json, 'person');
+    return new Character(
+      json.characterName,
+      people.find(p => p.name === json.person)
+    );
   }
 }
 
@@ -78,9 +88,20 @@ Person = class Person {
   }
 
   static fromJSON(json) {
-    if (!json.name) {
-      throw `'${json}' is not a person`;
-    }
-    return Person(json.name);
+    checkJsonMissesProperty('Person', json, 'name');
+    return new Person(json.name);
+  }
+}
+
+function checkJsonMissesProperty(parent, json, key, mustBeArray) {
+  if (!json[key]) {
+    err(`'${JSON.stringify(json)}' must define '${key}'`);
+  }
+  if (mustBeArray && !Array.isArray(json[key])) {
+    err(`'${key}' must be an array, but is '${json[key]}'`);
+  }
+
+  function err(msg) {
+    throw `Unmarshalling-Error in class ${parent.toUpperCase()}: ${msg}`;
   }
 }
