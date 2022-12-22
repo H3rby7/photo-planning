@@ -12,14 +12,14 @@ export function rateShotList(shots, prices) {
     console.warn("Need at least two shots on the shotlist!");
     return 0;
   }
-  let totalCost = 0;
+  let totalCosts = 0;
+  // Cost for Shot Changes
   for(let i = 0; i < shots.length - 1; i++) {
-    // Set Shot A and B
-    const a = shots[i];
-    const b = shots[i + 1];
-    totalCost += rateShotChange(a, b, prices);
+    totalCosts += rateShotChange(shots[i], shots[i + 1], prices);
   }
-  return totalCost;
+  // Cost for Idle time of actors
+  // TODO
+  return totalCosts;
 }
 
 /**
@@ -32,15 +32,49 @@ export function rateShotList(shots, prices) {
  */
 export function rateShotChange(a, b, prices) {
   // Calculate highest cost
-  let highestCost = 0;
-  if (highestCost < prices.locationChange && Rules.locationChange(a, b)) {
-    highestCost = prices.locationChange;
+  let highestCosts = 0;
+  if (highestCosts < prices.locationChange && Rules.locationChange(a, b)) {
+    highestCosts = prices.locationChange;
   }
-  if (highestCost < prices.actorGetsChanged && Rules.actorNeedsChange(a, b)) {
-    highestCost = prices.actorGetsChanged;
+  if (highestCosts < prices.actorGetsChanged && Rules.actorNeedsChange(a, b)) {
+    highestCosts = prices.actorGetsChanged;
   }
   // Add highest cost of this shot change
-  return highestCost;
+  return highestCosts;
+}
+
+/**
+ * 
+ * @param {!Shot[]} shotList 
+ * @param {!Prices} prices 
+ */
+export function rateCostOfActorIdle(shotList, prices) {
+  // Create a Map of Actors (key) and their scenes (value; shots as number[])
+  const map = new Map();
+  for (let i = 0; i < shotList.length; i++) {
+    const actorsInShot = shotList[i].characters.map(c => c.character.person.name);
+    actorsInShot.forEach(a => {
+      if (!map.has(a)) {
+        map.set(a, [i]);
+      } else {
+        map.get(a).push(i);
+      }
+    });
+  }
+  // Use MIN and MAX of array to calculate price
+  let totalCosts = 0;
+  for (let [_, shots] of map) {
+    if (shots.length > 1) {
+      shots.sort();
+      for (let i = 0; i < shots.length - 1; i++) {
+        // price per "idle" shot
+        // we subtract '1', because two consecutive shots have no idle time :)
+        const idleShots = (shots[i+1] - shots[i]) - 1;
+        totalCosts += prices.actorIsPresent * idleShots;
+      }
+    }
+  }
+  return totalCosts;
 }
 
 export class Prices {
@@ -48,9 +82,11 @@ export class Prices {
    * 
    * @param {!number} locationChange 
    * @param {!number} actorGetsChanged 
+   * @param {!number} actorIsPresent
    */
-  constructor(locationChange, actorGetsChanged) {
+  constructor(locationChange, actorGetsChanged, actorIsPresent) {
     this.locationChange = locationChange;
     this.actorGetsChanged = actorGetsChanged;
+    this.actorIsPresent = actorIsPresent;
   }
 }

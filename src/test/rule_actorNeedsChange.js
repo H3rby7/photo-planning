@@ -90,7 +90,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     );
     // INTERPRETATION
     let msg = null;
-    if (actorsNeedingToChange.indexOf("actor of queen") < 0) {
+    if (actorsNeedingToChange.length !== 1 || actorsNeedingToChange[0].name !== "actor of queen") {
       msg = "Actor of Queen should need to change!";
     }
     return TestHelpers.printTestResult(testName, msg);
@@ -109,7 +109,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     );
     // INTERPRETATION
     let msg = null;
-    if (actorsNeedingToChange.indexOf("actor of queen") < 0) {
+    if (actorsNeedingToChange.length !== 1 || actorsNeedingToChange[0].name !== "actor of queen") {
       msg = "Actor of Queen should need to change!";
     }
     return TestHelpers.printTestResult(testName, msg);
@@ -129,7 +129,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     );
     // INTERPRETATION
     let msg = null;
-    if (actorsNeedingToChange.length !== 2 || actorsNeedingToChange.indexOf("actor of queen") < 0 || actorsNeedingToChange.indexOf("actor of king") < 0) {
+    if (actorsNeedingToChange.length !== 2 || actorsNeedingToChange[0].name !== "actor of queen" || actorsNeedingToChange[1].name !== "actor of king") {
       msg = "Two actors should need to change: ['Actor of Queen', 'Actor of King']!";
     }
     return TestHelpers.printTestResult(testName, msg);

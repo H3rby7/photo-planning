@@ -1,4 +1,4 @@
-import { Character, CharacterInCostume, Shot } from "../app/classes.js";
+import { Character, CharacterInCostume, Person, Shot } from "../app/classes.js";
 
 let shotId = 0;
 
@@ -24,7 +24,7 @@ export class TestHelpers {
    * @returns {!CharacterInCostume}, where the actor will be 'actor of @param character'
    */
   static createCharacterInCostume(character, costume) {
-    return new CharacterInCostume(new Character(character, "actor of " + character), costume);
+    return new CharacterInCostume(new Character(character, new Person("actor of " + character)), costume);
   }
 
   /**

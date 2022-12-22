@@ -5,7 +5,7 @@ import { TestHelpers, Tests } from "./test_helpers.js";
  * 
  * @param {!Tests} TESTS the map of tests
  */
-export function addTests_rating(TESTS) {
+export function addTests_rateShotList(TESTS) {
 
   TESTS.add("rateShotList_noShots_expect_0", (testName) => {
     // SETUP
