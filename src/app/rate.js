@@ -43,8 +43,6 @@ export function rateShotChange(a, b, prices) {
   return highestCosts;
 }
 
-const shotsByActorMap = new Map();
-
 /**
  * 
  * @param {!Shot[]} shotList 
@@ -52,12 +50,11 @@ const shotsByActorMap = new Map();
  */
 export function rateCostOfActorIdle(shotList, prices, maximum) {
   // Create a Map of Actors (key) and their scenes (value; shots as number[])
-  shotsByActorMap.clear();
+  const shotsByActorMap = {};
   let totalCosts = 0;
   for (let i = 0; i < shotList.length; i++) {
-    const actorsInShot = shotList[i].characters.map(c => c.character.person.name);
-    actorsInShot.forEach(a => {
-      const lastShot = shotsByActorMap.get(a);
+    shotList[i].people.forEach(a => {
+      const lastShot = shotsByActorMap[a];
       if (lastShot || lastShot === 0) {
         // price per "idle" shot
         // we subtract '1', because two consecutive shots have no idle time :)
@@ -66,7 +63,7 @@ export function rateCostOfActorIdle(shotList, prices, maximum) {
           return totalCosts;
         }
       }
-      shotsByActorMap.set(a, i);
+      shotsByActorMap[a] = i;
     });
   }
   return totalCosts;

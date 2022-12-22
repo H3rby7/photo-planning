@@ -53,6 +53,7 @@ export class Shot {
     this.characters = characters;
     this.props = props;
     this.location = location;
+    this.people = characters.map(c => c.character.person.name)
   }
 
   /**

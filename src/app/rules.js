@@ -24,7 +24,7 @@ export class Rules {
    */
   static actorNeedsChange(a, b) {
     return a.characters.filter(ac => {
-      return b.characters.find(bc => ac.character.characterName === bc.character.characterName && ac.costume !== bc.costume)
+      return b.characters.find(bc => ac.character.person.name === bc.character.person.name && ac.costume !== bc.costume)
     }).length > 0;
   }
 

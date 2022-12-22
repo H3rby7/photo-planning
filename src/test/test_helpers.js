@@ -13,6 +13,9 @@ export class TestHelpers {
    * @returns {!Shot} with the given properties and incremented shotname ID 'shot #X'.
    */
   static createShot(location, charactersInCostume, ...props) {
+    if (!charactersInCostume) {
+      charactersInCostume = [];
+    }
     return new Shot("shot #" + (shotId++), charactersInCostume, props, location);
   }
 
