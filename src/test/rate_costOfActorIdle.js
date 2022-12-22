@@ -12,7 +12,7 @@ export function addTests_rateActorIdle(TESTS) {
     const prices = new Prices(0, 0, 1);
     const shotList = [];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 0) {
@@ -27,7 +27,7 @@ export function addTests_rateActorIdle(TESTS) {
     const l1 = TestHelpers.createShot(null, []);
     const shotList = [l1];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 0) {
@@ -43,7 +43,7 @@ export function addTests_rateActorIdle(TESTS) {
     const l1 = TestHelpers.createShot(null, [queen_party]);
     const shotList = [l1];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 0) {
@@ -60,7 +60,7 @@ export function addTests_rateActorIdle(TESTS) {
     const l2 = TestHelpers.createShot(null, [queen_party]);
     const shotList = [l1, l2];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 0) {
@@ -79,7 +79,7 @@ export function addTests_rateActorIdle(TESTS) {
     const l3 = TestHelpers.createShot(null, [queen_soldier]);
     const shotList = [l1, l2, l3];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 1) {
@@ -99,7 +99,7 @@ export function addTests_rateActorIdle(TESTS) {
     const l4 = TestHelpers.createShot(null, [queen_soldier]);
     const shotList = [l1, l2, l3, l4];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 2) {
@@ -119,7 +119,7 @@ export function addTests_rateActorIdle(TESTS) {
     const l4 = TestHelpers.createShot(null, [queen_party]);
     const shotList = [l1, l2, l3, l4];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 3) {
@@ -136,7 +136,7 @@ export function addTests_rateActorIdle(TESTS) {
     const emptyShot = TestHelpers.createShot(null, []);
     const shotList = [emptyShot, partyShot, partyShot, emptyShot, emptyShot];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 0) {
@@ -153,7 +153,7 @@ export function addTests_rateActorIdle(TESTS) {
     const emptyShot = TestHelpers.createShot(null, []);
     const shotList = [emptyShot, partyShot, emptyShot, emptyShot, partyShot, emptyShot, emptyShot, emptyShot, partyShot];
     // EXECUTION
-    const result = rateCostOfActorIdle(shotList, prices);
+    const result = rateCostOfActorIdle(shotList, prices, Infinity);
     // INTERPRETATION
     let msg = null;
     if (result !== 5) {
