@@ -4,21 +4,21 @@ import { Rules } from "./rules.js";
 /**
  * @param {!Shot[]} shots
  * @param {!Prices} prices
+ * @param {!number} maximum maximum costs, if we get higher inside a loop we can abort.
  * 
  * @returns {!number} Total price, where low is more efficient
  */
-export function rateShotList(shots, prices) {
-  if (shots.length < 2) {
-    console.warn("Need at least two shots on the shotlist!");
-    return 0;
-  }
+export function rateShotList(shots, prices, maximum) {
   let totalCosts = 0;
   // Cost for Shot Changes
   for(let i = 0; i < shots.length - 1; i++) {
     totalCosts += rateShotChange(shots[i], shots[i + 1], prices);
+    if (totalCosts > maximum) {
+      return totalCosts;
+    }
   }
   // Cost for Idle time of actors
-  totalCosts += rateCostOfActorIdle(shots, prices);
+  totalCosts += rateCostOfActorIdle(shots, prices, maximum - totalCosts);
   return totalCosts;
 }
 
@@ -50,7 +50,7 @@ const shotsByActorMap = new Map();
  * @param {!Shot[]} shotList 
  * @param {!Prices} prices 
  */
-export function rateCostOfActorIdle(shotList, prices) {
+export function rateCostOfActorIdle(shotList, prices, maximum) {
   // Create a Map of Actors (key) and their scenes (value; shots as number[])
   shotsByActorMap.clear();
   for (let i = 0; i < shotList.length; i++) {
@@ -63,18 +63,20 @@ export function rateCostOfActorIdle(shotList, prices) {
       }
     });
   }
-  // Use MIN and MAX of array to calculate price
-  let totalIdeling = 0;
+  let totalCosts = 0;
   for (let [_, shots] of shotsByActorMap) {
     if (shots.length > 1) {
       for (let i = 0; i < shots.length - 1; i++) {
         // price per "idle" shot
         // we subtract '1', because two consecutive shots have no idle time :)
-        totalIdeling += ((shots[i+1] - shots[i]) - 1);
+        totalCosts += prices.actorIsPresent * ((shots[i+1] - shots[i]) - 1);
+        if (totalCosts > maximum) {
+          return totalCosts;
+        }
       }
     }
   }
-  return prices.actorIsPresent * totalIdeling;
+  return totalCosts;
 }
 
 export class Prices {

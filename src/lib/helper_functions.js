@@ -53,7 +53,7 @@ export function permute(inputArr, action, updateHook) {
 
 export function printSummaryForShotList(shots, prices, progress) {
   const _shots = shots.map(s => s.copy());
-  const rating = rateShotList(_shots, prices);
+  const rating = rateShotList(_shots, prices, Infinity);
   const idlePrice = rateCostOfActorIdle(_shots, prices);
   const switchPrice = rating - idlePrice;
   console.log(`${progress ? progress + '% done' : ''}Idle Price: ${idlePrice}, Switch Price: ${switchPrice}, TOTAL: ${rating}.

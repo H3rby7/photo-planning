@@ -72,12 +72,13 @@ function optimizeShotList(inputData) {
     printSummaryForShotList(best.shots, prices);
   });
 
-  printSummaryForShotList(best.shots, prices);
+  console.log("********** RESULT **********");
   const timeTaken = Date.now() - startTime;
   console.log(`Took ${timeTaken} millis.`);
+  printSummaryForShotList(best.shots, prices);
 
   function action(shots) {
-    const rating = rateShotList(shots, prices);
+    const rating = rateShotList(shots, prices, best.rating);
     if (rating < best.rating) {
       best = {shots: shots.map(s => s.copy()), rating: rating};
     }

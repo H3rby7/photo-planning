@@ -83,6 +83,26 @@
       ],
       "props": ["book", "scepter", "fruit", "cart"],
       "location": "throne"
+    },
+    {
+      "shotName": "poster",
+      "characters": [
+        {"character": "protagonist", "costume": "1970s grey suit, burned"},
+        {"character": "antagonist", "costume": "fancy suit"}
+      ],
+      "props": ["cardboard explosion", "car"],
+      "location": "greenscreen"
+    },
+    {
+      "shotName": "full cast",
+      "characters": [
+        {"character": "protagonist", "costume": "personal clothes"},
+        {"character": "sidekick", "costume": "personal clothes"},
+        {"character": "homeless guy", "costume": "personal clothes"},
+        {"character": "antagonist", "costume": "personal clothes"}
+      ],
+      "props": [],
+      "location": "steps in front of building"
     }
   ]
 }

@@ -5,7 +5,7 @@ import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
 import { addTests_rule_locationChange } from "./rule_locationChange.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
-const RUN_TESTS = false;
+const RUN_TESTS = true;
 
 (() => {
 

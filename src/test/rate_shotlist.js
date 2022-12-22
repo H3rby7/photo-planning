@@ -7,32 +7,6 @@ import { TestHelpers, Tests } from "./test_helpers.js";
  */
 export function addTests_rateShotList(TESTS) {
 
-  TESTS.add("rateShotList_noShots_expect_0", (testName) => {
-    // SETUP
-    const shotList = [];
-    // EXECUTION
-    const result = rateShotList(shotList);
-    // INTERPRETATION
-    let msg = null;
-    if (result !== 0) {
-      msg = "Rating should be 0!";
-    }
-    return TestHelpers.printTestResult(testName, msg);
-  });
-
-  TESTS.add("rateShotList_oneShot_expect_0", (testName) => {
-    // SETUP
-    const shotList = [TestHelpers.createShot()];
-    // EXECUTION
-    const result = rateShotList(shotList);
-    // INTERPRETATION
-    let msg = null;
-    if (result !== 0) {
-      msg = "Rating should be 0!";
-    }
-    return TestHelpers.printTestResult(testName, msg);
-  });
-
   TESTS.add("rateShotChange_sameLocationSameCostumes_expect_0", (testName) => {
     // SETUP
     const prices = new Prices(3, 7);
