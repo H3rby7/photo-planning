@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6"
+  },
+  "include": ["src/app/index.js", "src/app/classes.js", "src/lib/require.js", "src/test/tests.js"  ]
+}
