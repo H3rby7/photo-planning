@@ -1,6 +1,6 @@
-import { permute } from "../lib/helper_functions.js";
+import { permute, printSummaryForShotList } from "../lib/helper_functions.js";
 import { InputData } from "./classes.js";
-import { Prices, rateCostOfActorIdle, rateShotList } from "./rate.js";
+import { Prices, rateShotList } from "./rate.js";
 
 const upload = document.getElementById("upload");
 const preview = document.getElementById("json-preview");
@@ -62,13 +62,19 @@ function optimizeShotList(inputData) {
     alert("Please load a file first!");
     return;
   }
-
+  const startTime = Date.now();
   let best = {
     shots: [],
     rating: Infinity
   };
-  permute(inputData.shots, action);
+
+  permute(inputData.shots, action, () => {
+    printSummaryForShotList(best.shots, prices);
+  });
+
   printSummaryForShotList(best.shots, prices);
+  const timeTaken = Date.now() - startTime;
+  console.log(`Took ${timeTaken} millis.`);
 
   function action(shots) {
     const rating = rateShotList(shots, prices);
@@ -76,15 +82,7 @@ function optimizeShotList(inputData) {
       best = {shots: shots.map(s => s.copy()), rating: rating};
     }
   }
-}
 
-function printSummaryForShotList(shots, prices) {
-  const _shots = shots.map(s => s.copy());
-  const rating = rateShotList(_shots, prices);
-  const idlePrice = rateCostOfActorIdle(_shots, prices);
-  const switchPrice = rating - idlePrice;
-  console.log(`Idle Price: ${idlePrice}, Switch Price: ${switchPrice}, TOTAL: ${rating}.`);
-  console.log(_shots);
 }
 
 upload.addEventListener('change', loadJSONFile);

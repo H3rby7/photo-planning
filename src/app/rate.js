@@ -43,6 +43,8 @@ export function rateShotChange(a, b, prices) {
   return highestCosts;
 }
 
+const shotsByActorMap = new Map();
+
 /**
  * 
  * @param {!Shot[]} shotList 
@@ -50,31 +52,29 @@ export function rateShotChange(a, b, prices) {
  */
 export function rateCostOfActorIdle(shotList, prices) {
   // Create a Map of Actors (key) and their scenes (value; shots as number[])
-  const map = new Map();
+  shotsByActorMap.clear();
   for (let i = 0; i < shotList.length; i++) {
     const actorsInShot = shotList[i].characters.map(c => c.character.person.name);
     actorsInShot.forEach(a => {
-      if (!map.has(a)) {
-        map.set(a, [i]);
+      if (!shotsByActorMap.has(a)) {
+        shotsByActorMap.set(a, [i]);
       } else {
-        map.get(a).push(i);
+        shotsByActorMap.get(a).push(i);
       }
     });
   }
   // Use MIN and MAX of array to calculate price
-  let totalCosts = 0;
-  for (let [_, shots] of map) {
+  let totalIdeling = 0;
+  for (let [_, shots] of shotsByActorMap) {
     if (shots.length > 1) {
-      shots.sort();
       for (let i = 0; i < shots.length - 1; i++) {
         // price per "idle" shot
         // we subtract '1', because two consecutive shots have no idle time :)
-        const idleShots = (shots[i+1] - shots[i]) - 1;
-        totalCosts += prices.actorIsPresent * idleShots;
+        totalIdeling += ((shots[i+1] - shots[i]) - 1);
       }
     }
   }
-  return totalCosts;
+  return prices.actorIsPresent * totalIdeling;
 }
 
 export class Prices {
