@@ -5,14 +5,22 @@ InputData = class InputData {
     this.shots = shots;
   }
 
-  static fromJSON(json) {
+  static fromSaveable(json) {
     checkJsonMissesProperty('InputData', json, 'people', true);
     checkJsonMissesProperty('InputData', json, 'characters', true);
     checkJsonMissesProperty('InputData', json, 'shots', true);
-    const people = json.people.map(Person.fromJSON);
-    const characters = json.characters.map(c => Character.fromJSON(c, people));
-    const shots = json.shots.map(s => Shot.fromJSON(s, characters));
+    const people = json.people.map(Person.fromSaveable);
+    const characters = json.characters.map(c => Character.fromSaveable(c, people));
+    const shots = json.shots.map(s => Shot.fromSaveable(s, characters));
     return new InputData(people, characters, shots);
+  }
+
+  toSaveable() {
+    return {
+      people: this.people,
+      characters: this.characters.map(c => c.toSaveable()),
+      shots: this.shots.map(s => s.toSaveable())
+    }
   }
 }
 
@@ -28,16 +36,25 @@ Shot = class Shot {
     this.location = location;
   }
 
-  static fromJSON(json, characters) {
+  static fromSaveable(json, characters) {
     checkJsonMissesProperty('Shot', json, 'shotName');
     checkJsonMissesProperty('Shot', json, 'characters', true);
     checkJsonMissesProperty('Shot', json, 'props', true);
     return new Shot(
       json.shotName,
-      json.characters.map(c => CharacterInScene.fromJSON(c, characters)),
+      json.characters.map(c => CharacterInScene.fromSaveable(c, characters)),
       json.props,
       json.location
     );
+  }
+
+  toSaveable() {
+    return {
+      shotName: this.shotName,
+      characters: this.characters.map(c => c.toSaveable()),
+      props: this.props,
+      location: this.location
+    }
   }
 }
 
@@ -50,13 +67,20 @@ CharacterInScene = class CharacterInScene {
     this.costume = costume;
   }
 
-  static fromJSON(json, characters) {
+  static fromSaveable(json, characters) {
     checkJsonMissesProperty('CharacterInScene', json, 'character');
     checkJsonMissesProperty('CharacterInScene', json, 'costume');
     return new CharacterInScene(
       characters.find(c => c.characterName === json.character),
       json.costume
     );
+  }
+
+  toSaveable() {
+    return {
+      character: this.character.characterName,
+      costume: this.costume
+    }
   }
 }
 
@@ -69,13 +93,20 @@ Character = class Character {
     this.person = person;
   }
 
-  static fromJSON(json, people) {
+  static fromSaveable(json, people) {
     checkJsonMissesProperty('Character', json, 'characterName');
     checkJsonMissesProperty('Character', json, 'person');
     return new Character(
       json.characterName,
       people.find(p => p.name === json.person)
     );
+  }
+
+  toSaveable() {
+    return {
+      characterName: this.characterName, 
+      person: this.person.name
+    }
   }
 }
 
@@ -87,9 +118,15 @@ Person = class Person {
     this.name = name;
   }
 
-  static fromJSON(json) {
+  static fromSaveable(json) {
     checkJsonMissesProperty('Person', json, 'name');
     return new Person(json.name);
+  }
+
+  toSaveable() {
+    return {
+      name: this.name
+    }
   }
 }
 

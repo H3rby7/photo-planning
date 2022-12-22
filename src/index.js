@@ -2,17 +2,18 @@ const upload = document.getElementById("upload");
 const preview = document.getElementById("json-preview");
 
 let data;
+// const DEBUG = true;
 
 /*
  * @param {js object} data 
  */
 function loadNewData(nextData) {
-  console.log(nextData);
-  const asString = JSON.stringify(nextData);
+  data = InputData.fromSaveable(nextData);
+  console.log(data);
+  saveFile = data.toSaveable();
+  const asString = JSON.stringify(saveFile);
   preview.innerHTML = asString;
   localStorage.setItem("photo-planner-data", asString);
-  data = InputData.fromJSON(nextData);
-  console.log(data);
 }
 
 function loadFromLocalStorage() {
