@@ -18,7 +18,7 @@ export function rateShotList(shots, prices) {
     totalCosts += rateShotChange(shots[i], shots[i + 1], prices);
   }
   // Cost for Idle time of actors
-  // TODO
+  totalCosts += rateCostOfActorIdle(shots, prices);
   return totalCosts;
 }
 

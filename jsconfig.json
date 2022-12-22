@@ -4,7 +4,8 @@
     "target": "es6"
   },
   "include": [
-    "src/app/*", 
-    "src/test/*"  
+    "src/app/*",
+    "src/lib/*",
+    "src/test/*"
   ]
 }
