@@ -1,4 +1,5 @@
-import { Character, CharacterInCostume, InputData, Shot } from "../app/classes.js";
+import { InputData } from "../app/classes.js";
+import { addTests_rating } from "./rate_shotlist.js";
 import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
 import { addTests_rule_locationChange } from "./rule_locationChange.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
@@ -50,6 +51,7 @@ const RUN_TESTS = true;
 
   addTests_rule_locationChange(TESTS);
   addTests_rule_actorNeedsChange(TESTS);
+  addTests_rating(TESTS);
 
   TESTS.runTests();
 
