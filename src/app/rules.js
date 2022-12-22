@@ -22,11 +22,11 @@ export class Rules {
    * 
    * @returns {(string[]|false)} List of actors that need to change costume or false if no costume change
    */
-  static actorNeedsChange(a, b) {
+  static actorNeedsChange(a, b, giveDetails) {
     const changers = a.characters.filter(ac => {
       return b.characters.find(bc => ac.character.characterName === bc.character.characterName && ac.costume !== bc.costume)
     });
-    return changers.length ? changers.map(c => c.character.person) : false;
+    return changers.length ? (giveDetails ? changers.map(c => c.character.person) : true) : false;
   }
 
 }

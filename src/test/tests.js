@@ -1,19 +1,19 @@
 import { Character, CharacterInCostume, InputData, Shot } from "../app/classes.js";
 import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
 import { addTests_rule_locationChange } from "./rule_locationChange.js";
-import { TestHelpers } from "./test_helpers.js";
+import { TestHelpers, Tests } from "./test_helpers.js";
 
 const RUN_TESTS = true;
 
 (() => {
 
-  const TESTS = {};
+  const TESTS = new Tests();
 
   if (!RUN_TESTS) {
     return;
   }
 
-  TESTS["loadSaveLoad"] = (testName) => {
+  TESTS.add("loadSaveLoad", (testName) => {
     // SETUP
     const testInput = {
       "people": [
@@ -46,24 +46,11 @@ const RUN_TESTS = true;
       msg = "Data should not change over load and save!";
     }
     return TestHelpers.printTestResult(testName, msg);
-  }
+  })
 
   addTests_rule_locationChange(TESTS);
   addTests_rule_actorNeedsChange(TESTS);
 
-  let totalTests = 0;
-  let successfulTests = 0;
-  Object.keys(TESTS).forEach(k => {
-    totalTests++;
-    if (TESTS[k](k)) {
-      successfulTests++;
-    }
-  });
-
-  if (successfulTests === totalTests) {
-    console.info(`TEST RESULTS: ALL TESTS (${totalTests}) SUCCEEDED!`);
-  } else {
-    console.error(`TEST RESULTS: ONLY ${successfulTests} of ${totalTests} TESTS SUCCEEDED :/`);
-  }
+  TESTS.runTests();
 
 })();

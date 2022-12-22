@@ -1,12 +1,12 @@
 import { Rules } from "../app/rules.js";
-import { TestHelpers } from "./test_helpers.js";
+import { TestHelpers, Tests } from "./test_helpers.js";
 
 /**
  * 
- * @param {!Object} TESTS the map of tests
+ * @param {!Tests} TESTS the map of tests
  */
 export function addTests_rule_locationChange(TESTS) {
-  TESTS["locationChange_noLocations_expect_false"] = (testName) => {
+  TESTS.add("locationChange_noLocations_expect_false", (testName) => {
     // SETUP
     const l1 = TestHelpers.createShot();
     const l2 = TestHelpers.createShot();
@@ -18,9 +18,9 @@ export function addTests_rule_locationChange(TESTS) {
       msg = "There should be no change in location!";
     }
     return TestHelpers.printTestResult(testName, msg);
-  }
+  });
 
-  TESTS["locationChange_sameLocation_expect_false"] = (testName) => {
+  TESTS.add("locationChange_sameLocation_expect_false", (testName) => {
     // SETUP
     const l1 = TestHelpers.createShot("throne");
     const l2 = TestHelpers.createShot("throne");
@@ -32,9 +32,9 @@ export function addTests_rule_locationChange(TESTS) {
       msg = "There should be no change in location!";
     }
     return TestHelpers.printTestResult(testName, msg);
-  }
+  });
 
-  TESTS["locationChange_differentLocation_expect_true"] = (testName) => {
+  TESTS.add("locationChange_differentLocation_expect_true", (testName) => {
     // SETUP
     const l1 = TestHelpers.createShot("throne");
     const l2 = TestHelpers.createShot("forest");
@@ -46,5 +46,5 @@ export function addTests_rule_locationChange(TESTS) {
       msg = "There should be a change in location!";
     }
     return TestHelpers.printTestResult(testName, msg);
-  }
+  });
 }

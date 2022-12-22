@@ -45,5 +45,33 @@ export class TestHelpers {
 
 }
 
+export class Tests {
+  mapOfTests = {}
 
+  add(testName, fn) {
+    if (Object.keys(this.mapOfTests).indexOf(testName) < 0) {
+      this.mapOfTests[testName] = fn;
+    } else {
+      alert(`Test with name '${testName}' already exists!`);
+      throw `Test with name '${testName}' already exists!`;
+    }
+  }
+
+  runTests() {
+    let totalTests = 0;
+    let successfulTests = 0;
+    Object.keys(this.mapOfTests).forEach(k => {
+      totalTests++;
+      if (this.mapOfTests[k](k)) {
+        successfulTests++;
+      }
+    });
+
+    if (successfulTests === totalTests) {
+      console.info(`TEST RESULTS: ALL TESTS (${totalTests}) SUCCEEDED!`);
+    } else {
+      console.error(`TEST RESULTS: ONLY ${successfulTests} of ${totalTests} TESTS SUCCEEDED :/`);
+    }
+  }
+}
 
