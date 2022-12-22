@@ -1,11 +1,12 @@
 import { Character, CharacterInCostume, InputData, Shot } from "../app/classes.js";
-import { Rules } from "../app/rules.js";
+import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
+import { addTests_rule_locationChange } from "./rule_locationChange.js";
+import { TestHelpers } from "./test_helpers.js";
 
 const RUN_TESTS = true;
 
 (() => {
 
-  let shotId = 0;
   const TESTS = {};
 
   if (!RUN_TESTS) {
@@ -44,84 +45,11 @@ const RUN_TESTS = true;
     if (loadedData.length !== validationData.length) {
       msg = "Data should not change over load and save!";
     }
-    printTestResult(testName, msg);
+    TestHelpers.printTestResult(testName, msg);
   }
 
-  TESTS["locationChange_sameLocation_expect_false"] = (testName) => {
-    // SETUP
-    const l1 = helpers_createTestShot("throne");
-    const l2 = helpers_createTestShot("throne");
-    // EXECUTION
-    const locationChanges = Rules.locationChange(l1, l2);
-    // INTERPRETATION
-    let msg = null;
-    if (locationChanges) {
-      msg = "There should be no change in location!";
-    }
-    printTestResult("test_locationChange_sameLocation_expect_false", msg);
-  }
-  
-  TESTS["locationChange_noLocations_expect_false"] = (testName) => {
-    // SETUP
-    const l1 = helpers_createTestShot();
-    const l2 = helpers_createTestShot();
-    // EXECUTION
-    const locationChanges = Rules.locationChange(l1, l2);
-    // INTERPRETATION
-    let msg = null;
-    if (locationChanges) {
-      msg = "There should be no change in location!";
-    }
-    printTestResult(testName, msg);
-  }
-
-  TESTS["locationChange_differentLocation_expect_true"] = (testName) => {
-    // SETUP
-    const l1 = helpers_createTestShot("throne");
-    const l2 = helpers_createTestShot("forest");
-    // EXECUTION
-    const locationChanges = Rules.locationChange(l1, l2);
-    // INTERPRETATION
-    let msg = null;
-    if (!locationChanges) {
-      msg = "There should be a change in location!";
-    }
-    printTestResult(testName, msg);
-  }
-
-  TESTS["actorNeedsChange_sameCostume_expect_false"] = (testName) => {
-    // SETUP
-    const c1 = helpers_createTestCharactersInCostume("queen", "soldier outfit");
-    const c2 = helpers_createTestCharactersInCostume("queen", "soldier outfit");
-    // EXECUTION
-    const actorsNeedingToChange = Rules.actorNeedsChange(
-      helpers_createTestShot(null, [c1]),
-      helpers_createTestShot(null, [c2])
-    );
-    // INTERPRETATION
-    let msg = null;
-    if (actorsNeedingToChange) {
-      msg = "No one should need to change!";
-    }
-    printTestResult(testName, msg);
-  }
-
-  TESTS["actorNeedsChange_differentActors_expect_false"] = (testName) => {
-    // SETUP
-    const c1 = helpers_createTestCharactersInCostume("queen", "soldier outfit");
-    const c2 = helpers_createTestCharactersInCostume("barber", "barber outfit");
-    // EXECUTION
-    const actorsNeedingToChange = Rules.actorNeedsChange(
-      helpers_createTestShot(null, [c1]),
-      helpers_createTestShot(null, [c2])
-    );
-    // INTERPRETATION
-    let msg = null;
-    if (actorsNeedingToChange) {
-      msg = "No one should need to change!";
-    }
-    printTestResult(testName, msg);
-  }
+  addTests_rule_locationChange(TESTS);
+  addTests_rule_actorNeedsChange(TESTS);
 
   Object.keys(TESTS).forEach(k => TESTS[k](k));
 

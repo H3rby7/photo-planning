@@ -26,7 +26,7 @@ export class Rules {
     const changers = a.characters.filter(ac => {
       return b.characters.find(bc => ac.character.characterName === bc.character.characterName && ac.costume !== bc.costume)
     });
-    return changers.length ? changers : false;
+    return changers.length ? changers.map(c => c.character.person) : false;
   }
 
 }
