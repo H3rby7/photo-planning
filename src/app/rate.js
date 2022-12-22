@@ -13,7 +13,7 @@ export function rateShotList(shots, prices, maximum) {
   // Cost for Shot Changes
   for(let i = 0; i < shots.length - 1; i++) {
     totalCosts += rateShotChange(shots[i], shots[i + 1], prices);
-    if (totalCosts > maximum) {
+    if (totalCosts >= maximum) {
       return totalCosts;
     }
   }
@@ -62,7 +62,7 @@ export function rateCostOfActorIdle(shotList, prices, maximum) {
         // price per "idle" shot
         // we subtract '1', because two consecutive shots have no idle time :)
         totalCosts += prices.actorIsPresent * ((i - lastShot) - 1);
-        if (totalCosts > maximum) {
+        if (totalCosts >= maximum) {
           return totalCosts;
         }
       }

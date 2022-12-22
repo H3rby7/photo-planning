@@ -32,7 +32,7 @@ export function permute(inputArr, action, updateHook) {
 
   while (i < length) {
     lastUpdateSince++;
-    if (lastUpdateSince === 500000) {
+    if (lastUpdateSince === 10000000) {
       updateHook();
       lastUpdateSince = 0;
     }
