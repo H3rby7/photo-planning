@@ -17,7 +17,7 @@ export function addTests_rule_locationChange(TESTS) {
     if (locationChanges) {
       msg = "There should be no change in location!";
     }
-    TestHelpers.printTestResult(testName, msg);
+    return TestHelpers.printTestResult(testName, msg);
   }
 
   TESTS["locationChange_sameLocation_expect_false"] = (testName) => {
@@ -31,7 +31,7 @@ export function addTests_rule_locationChange(TESTS) {
     if (locationChanges) {
       msg = "There should be no change in location!";
     }
-    TestHelpers.printTestResult(testName, msg);
+    return TestHelpers.printTestResult(testName, msg);
   }
 
   TESTS["locationChange_differentLocation_expect_true"] = (testName) => {
@@ -45,6 +45,6 @@ export function addTests_rule_locationChange(TESTS) {
     if (!locationChanges) {
       msg = "There should be a change in location!";
     }
-    TestHelpers.printTestResult(testName, msg);
+    return TestHelpers.printTestResult(testName, msg);
   }
 }

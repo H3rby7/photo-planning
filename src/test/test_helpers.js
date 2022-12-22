@@ -36,8 +36,10 @@ export class TestHelpers {
   static printTestResult(testName, msg) {
     if (msg) {
       console.error(`TEST ERROR   - ${testName}: '${msg}'`);
+      return false;
     } else {
       console.debug(`TEST SUCCESS - ${testName}`);
+      return true;
     }
   }
 
