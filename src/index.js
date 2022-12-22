@@ -5,8 +5,10 @@ const preview = document.getElementById("json-preview");
 
 let data;
 
-/*
- * @param {js object} data 
+/**
+ * Load the given data into the application and save to local storage
+ * 
+ * @param {!Object} nextData
  */
 function loadNewData(nextData) {
   data = InputData.fromSaveable(nextData);
@@ -17,6 +19,9 @@ function loadNewData(nextData) {
   localStorage.setItem("photo-planner-data", asString);
 }
 
+/**
+ * Load data from local storage, if present.
+ */
 function loadFromLocalStorage() {
   const localData = localStorage.getItem("photo-planner-data");
   if (localData) {
@@ -27,6 +32,9 @@ function loadFromLocalStorage() {
   }
 }
 
+/**
+ * Handle the json file of the upload input and load into application
+ */
 function loadJSONFile() {
   const file = upload.files[0];
   if (file) {

@@ -1,10 +1,23 @@
 InputData = class InputData {
+  /**
+   * 
+   * @param {!Person[]} people 
+   * @param {!Character[]} characters 
+   * @param {!Shot[]} shots 
+   */
   constructor(people, characters, shots) {
     this.people = people;
     this.characters = characters;
     this.shots = shots;
   }
 
+  /**
+   * 
+   * @param {!Object} json 
+   * @returns {!InputData}
+   * 
+   * @throws if the input data is not valid
+   */
   static fromSaveable(json) {
     checkJsonMissesProperty('InputData', json, 'people', true);
     checkJsonMissesProperty('InputData', json, 'characters', true);
@@ -15,6 +28,10 @@ InputData = class InputData {
     return new InputData(people, characters, shots);
   }
 
+  /**
+   * 
+   * @returns {!Object}
+   */
   toSaveable() {
     return {
       people: this.people,
@@ -25,9 +42,11 @@ InputData = class InputData {
 }
 
 Shot = class Shot {
-  /*
-  * @param {string} name = id
-  * @param {string | null | 'greenscreen'} location = null, name of setting, or greenscreen
+  /**
+  * @param {!string} shotName Name of the Shot, must be unique
+  * @param {?(string|'greenscreen')} location Set/Setting for the shot or null
+  * @param {!string[]} props List of required props
+  * @param {!CharacterInScene[]} characters List of required characters in costumes
   */
   constructor(shotName, characters, props, location) {
     this.shotName = shotName;
@@ -36,6 +55,12 @@ Shot = class Shot {
     this.location = location;
   }
 
+  /**
+   * 
+   * @param {!Object} json
+   * @param {!Character[]} characters List of the whole cast of characters (ALL).
+   * @returns {!Shot}
+   */
   static fromSaveable(json, characters) {
     checkJsonMissesProperty('Shot', json, 'shotName');
     checkJsonMissesProperty('Shot', json, 'characters', true);
@@ -48,6 +73,10 @@ Shot = class Shot {
     );
   }
 
+  /**
+   * 
+   * @returns {!Object}
+   */
   toSaveable() {
     return {
       shotName: this.shotName,
@@ -59,14 +88,21 @@ Shot = class Shot {
 }
 
 CharacterInScene = class CharacterInScene {
-  /*
-  * @param name = id
+  /**
+  * @param {!Character} character a character
+  * @param {!string} costume wearing a costume
   */
   constructor(character, costume) {
     this.character = character;
     this.costume = costume;
   }
 
+  /**
+   * 
+   * @param {!Object} json 
+   * @param {!Character[]} characters List of the whole cast of characters (ALL).
+   * @returns {!CharacterInScene} a representation of a character wearing a costume.
+   */
   static fromSaveable(json, characters) {
     checkJsonMissesProperty('CharacterInScene', json, 'character');
     checkJsonMissesProperty('CharacterInScene', json, 'costume');
@@ -76,6 +112,10 @@ CharacterInScene = class CharacterInScene {
     );
   }
 
+  /**
+   * 
+   * @returns {!Object}
+   */
   toSaveable() {
     return {
       character: this.character.characterName,
@@ -85,14 +125,21 @@ CharacterInScene = class CharacterInScene {
 }
 
 Character = class Character {
-  /*
-  * @param name = id
+  /**
+  * @param {!string} characterName Name of the character, must be unique
+  * @param {!Person} person The person playing the character
   */
   constructor(characterName, person) {
     this.characterName = characterName;
     this.person = person;
   }
 
+  /**
+   * 
+   * @param {!Object} json 
+   * @param {!People[]} people List of the whole cast of actors (ALL).
+   * @returns {!Character}
+   */
   static fromSaveable(json, people) {
     checkJsonMissesProperty('Character', json, 'characterName');
     checkJsonMissesProperty('Character', json, 'person');
@@ -102,6 +149,10 @@ Character = class Character {
     );
   }
 
+  /**
+   * 
+   * @returns {!Object}
+   */
   toSaveable() {
     return {
       characterName: this.characterName, 
@@ -111,18 +162,27 @@ Character = class Character {
 }
 
 Person = class Person {
-  /*
-  * @param name = id
+  /**
+  * @param name Name of the actor, must be unique
   */
   constructor(name) {
     this.name = name;
   }
 
+  /**
+   * 
+   * @param {!Object} json 
+   * @returns {!Person}
+   */
   static fromSaveable(json) {
     checkJsonMissesProperty('Person', json, 'name');
     return new Person(json.name);
   }
 
+  /**
+   * 
+   * @returns {!Object}
+   */
   toSaveable() {
     return {
       name: this.name
@@ -130,6 +190,16 @@ Person = class Person {
   }
 }
 
+/**
+ * Check the Object to have a property and throws if encountering an error.
+ * 
+ * @param {string} parent Identifier for the throwing class or method
+ * @param {!Object} json The object to be checked
+ * @param {!string} key The key to check for 
+ * @param {?boolean} mustBeArray Also check if the value of the key is an array?
+ * 
+ * @throws {string} An error if a check fails
+ */
 function checkJsonMissesProperty(parent, json, key, mustBeArray) {
   if (!json[key]) {
     err(`'${JSON.stringify(json)}' must define '${key}'`);
