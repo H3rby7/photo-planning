@@ -46,7 +46,7 @@ export class Shot {
   * @param {!string} shotName Name of the Shot, must be unique
   * @param {?(string|'greenscreen')} location Set/Setting for the shot or null
   * @param {!string[]} props List of required props
-  * @param {!CharacterInScene[]} characters List of required characters in costumes
+  * @param {!CharacterInCostume[]} characters List of required characters in costumes
   */
   constructor(shotName, characters, props, location) {
     this.shotName = shotName;
@@ -67,7 +67,7 @@ export class Shot {
     checkJsonMissesProperty('Shot', json, 'props', true);
     return new Shot(
       json.shotName,
-      json.characters.map(c => CharacterInScene.fromSaveable(c, characters)),
+      json.characters.map(c => CharacterInCostume.fromSaveable(c, characters)),
       json.props,
       json.location
     );
@@ -87,7 +87,7 @@ export class Shot {
   }
 }
 
-export class CharacterInScene {
+export class CharacterInCostume {
   /**
   * @param {!Character} character a character
   * @param {!string} costume wearing a costume
@@ -101,12 +101,12 @@ export class CharacterInScene {
    * 
    * @param {!Object} json 
    * @param {!Character[]} characters List of the whole cast of characters (ALL).
-   * @returns {!CharacterInScene} a representation of a character wearing a costume.
+   * @returns {!CharacterInCostume} a representation of a character wearing a costume.
    */
   static fromSaveable(json, characters) {
-    checkJsonMissesProperty('CharacterInScene', json, 'character');
-    checkJsonMissesProperty('CharacterInScene', json, 'costume');
-    return new CharacterInScene(
+    checkJsonMissesProperty('CharacterInCostume', json, 'character');
+    checkJsonMissesProperty('CharacterInCostume', json, 'costume');
+    return new CharacterInCostume(
       characters.find(c => c.characterName === json.character),
       json.costume
     );
