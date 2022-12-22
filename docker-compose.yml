@@ -1,0 +1,9 @@
+version: "3"
+services:
+  www:
+    image: aikain/simplehttpserver:0.1
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - "./:/var/www"

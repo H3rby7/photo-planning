@@ -1,4 +1,4 @@
-InputData = class InputData {
+export class InputData {
   /**
    * 
    * @param {!Person[]} people 
@@ -41,7 +41,7 @@ InputData = class InputData {
   }
 }
 
-Shot = class Shot {
+export class Shot {
   /**
   * @param {!string} shotName Name of the Shot, must be unique
   * @param {?(string|'greenscreen')} location Set/Setting for the shot or null
@@ -87,7 +87,7 @@ Shot = class Shot {
   }
 }
 
-CharacterInScene = class CharacterInScene {
+export class CharacterInScene {
   /**
   * @param {!Character} character a character
   * @param {!string} costume wearing a costume
@@ -124,7 +124,7 @@ CharacterInScene = class CharacterInScene {
   }
 }
 
-Character = class Character {
+export class Character {
   /**
   * @param {!string} characterName Name of the character, must be unique
   * @param {!Person} person The person playing the character
@@ -161,7 +161,7 @@ Character = class Character {
   }
 }
 
-Person = class Person {
+export class Person {
   /**
   * @param name Name of the actor, must be unique
   */

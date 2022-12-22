@@ -1,3 +1,7 @@
+import { InputData } from "../app/classes.js";
+
+const RUN_TESTS = true;
+
 (() => {
   if (!RUN_TESTS) {
     return;
@@ -28,9 +32,9 @@
   testLoadSaveLoad();
 
   function testLoadSaveLoad() {
-    loadedData = InputData.fromSaveable(testInput);
-    savedData = loadedData.toSaveable();
-    validationData = InputData.fromSaveable(savedData);
+    const loadedData = InputData.fromSaveable(testInput);
+    const savedData = loadedData.toSaveable();
+    const validationData = InputData.fromSaveable(savedData);
     if (loadedData.length !== validationData.length) {
       throw "TEST ERROR - Data should not change over load and save!";
     } else {

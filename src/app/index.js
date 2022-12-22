@@ -1,4 +1,4 @@
-const RUN_TESTS = true;
+import { InputData } from "./classes.js";
 
 const upload = document.getElementById("upload");
 const preview = document.getElementById("json-preview");
@@ -11,9 +11,9 @@ let data;
  * @param {!Object} nextData
  */
 function loadNewData(nextData) {
-  data = InputData.fromSaveable(nextData);
+  const data = InputData.fromSaveable(nextData);
   console.log(data);
-  saveFile = data.toSaveable();
+  const saveFile = data.toSaveable();
   const asString = JSON.stringify(saveFile);
   preview.innerHTML = asString;
   localStorage.setItem("photo-planner-data", asString);
