@@ -1,0 +1,21 @@
+{
+  "people": [
+    {"name": "Alex"},
+    {"name": "Kim"}
+  ],
+  "characters": [
+    {"protagonist": "Alex"},
+    {"antagonist": "Kim"}
+  ],
+  "shot": [
+    {
+      "shotName": "opening number",
+      "characters": [
+        {"character": "protagonist", "costume": "1970s grey suit"},
+        {"character": "antagonist", "costume": "fancy disco outfit"}
+      ],
+      "props": ["book", "scepter", "fruit"],
+      "location": "throne"
+    }
+  ]
+}
