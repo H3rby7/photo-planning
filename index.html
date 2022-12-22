@@ -2,12 +2,16 @@
 <head>
   <title>Photo Planner</title>
   <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Photo Planning</h1>
   <label for="upload">Load Data</label>
   <input type="file" name="upload" id="upload" accept="json">
-  <div id="json-preview"></div>
+  <details>
+    <summary>InputData</summary>
+    <div id="json-preview"></div>
+  </details>
   <!-- Start App -->
   <script type="module" src="src/app/index.js"></script>
   <script type="module" src="src/test/tests.js"></script>

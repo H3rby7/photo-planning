@@ -14,9 +14,8 @@ function loadNewData(nextData) {
   data = InputData.fromSaveable(nextData);
   console.log(data);
   const saveFile = data.toSaveable();
-  const asString = JSON.stringify(saveFile);
-  preview.innerHTML = asString;
-  localStorage.setItem("photo-planner-data", asString);
+  preview.innerHTML = JSON.stringify(saveFile, null, 2);
+  localStorage.setItem("photo-planner-data", JSON.stringify(saveFile));
 }
 
 /**
