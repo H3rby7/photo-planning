@@ -11,7 +11,7 @@ let data;
  * @param {!Object} nextData
  */
 function loadNewData(nextData) {
-  const data = InputData.fromSaveable(nextData);
+  data = InputData.fromSaveable(nextData);
   console.log(data);
   const saveFile = data.toSaveable();
   const asString = JSON.stringify(saveFile);
