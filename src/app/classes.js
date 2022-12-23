@@ -53,7 +53,10 @@ export class Shot {
     this.characters = characters;
     this.props = props;
     this.location = location;
-    this.people = characters.map(c => c.character.person.name)
+    this.costumeByPeople = {};
+    characters.forEach(c => {
+      this.costumeByPeople[c.character.person.name] = c.costume;
+    });
   }
 
   /**
