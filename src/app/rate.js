@@ -53,7 +53,7 @@ export function rateCostOfActorIdle(shotList, prices, maximum) {
   const shotsByActorMap = {};
   let totalCosts = 0;
   for (let i = 0; i < shotList.length; i++) {
-    Object.keys(shotList[i].costumeByPeople).forEach(a => {
+    for (const a in shotList[i].costumeByPeople) {
       const lastShot = shotsByActorMap[a];
       if (lastShot || lastShot === 0) {
         // price per "idle" shot
@@ -64,7 +64,7 @@ export function rateCostOfActorIdle(shotList, prices, maximum) {
         }
       }
       shotsByActorMap[a] = i;
-    });
+    }
   }
   return totalCosts;
 }

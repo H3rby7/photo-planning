@@ -17,17 +17,21 @@ export class Rules {
   /**
    * Check if two shots require at least one actor to change the costume
    * 
-   * @param {!Shot} a Shot A
-   * @param {!Shot} b Shot B
+   * @param {!Shot} shotA Shot A
+   * @param {!Shot} shotB Shot B
    * 
    * @returns {boolean} true if costume change or false if no costume change
    */
-  static actorNeedsChange(a, b) {
-    for (const p in a.costumeByPeople) {
-      if (b.costumeByPeople[p] && b.costumeByPeople[p] !== a.costumeByPeople[p]) {
-        return true;
+  static actorNeedsChange(shotA, shotB) {
+    return shotA.characters.length < shotB.characters.length ? check(shotA, shotB) : check(shotB, shotA);
+    
+    function check(a, b) {
+      for (const p in a.costumeByPeople) {
+        if (b.costumeByPeople[p] && b.costumeByPeople[p] !== a.costumeByPeople[p]) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
   }
 }
