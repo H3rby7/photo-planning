@@ -1,4 +1,5 @@
 import { Shot } from "./classes.js";
+import { ActorIdle } from "./memory.js";
 import { Rules } from "./rules.js";
 
 /**
@@ -48,6 +49,41 @@ export function rateCostOfActorIdle(shotList, prices, maximum) {
   return totalCosts;
 }
 
+/**
+ * 
+ * @param {!Shot[]} shotList
+ * @param {!ActorIdle[]} actorIdles of all actors that need updating
+ * 
+ */
+export function updateIdlesByActor(shotList, actorIdles) {
+  const actors = actorIdles.map(a => a.actorName);
+  actorIdles.forEach(a => {
+    a.idles = 0;
+    delete a.firstShot;
+    delete a.lastShot;
+  });
+  const shotsByActorMap = {};
+  for (let i = 0; i < shotList.length; i++) {
+    const peopleInShot = Object.keys(shotList[i].costumeByPeople).filter(p => actors.includes(p));
+    for (const a in peopleInShot) {
+      const actorName = peopleInShot[a];
+      const lastShot = shotsByActorMap[actorName];
+      const actorIdle = actorIdles.find(a => a.actorName === actorName);
+      if (lastShot || lastShot === 0) {
+        // there was a 'lastShot'
+        // price per "idle" shot
+        // we subtract '1', because two consecutive shots have no idle time :)
+        actorIdle.idles += ((i - lastShot) - 1);
+      } else {
+        // it is the first shot of this actor
+        actorIdle.firstShot = i;
+      }
+      actorIdle.lastShot = i;
+      shotsByActorMap[actorName] = i;
+    }
+  }
+}
+
 export class Prices {
   /**
    * 
@@ -59,5 +95,17 @@ export class Prices {
     this.locationChange = locationChange;
     this.actorGetsChanged = actorGetsChanged;
     this.actorIsPresent = actorIsPresent;
+  }
+}
+
+export class RatingConditions {
+  /**
+   * 
+   * @param {!Prices} prices 
+   * @param {?number} maximumCosts 
+   */
+  constructor(prices, maximumCosts) {
+    this.prices = prices;
+    this.maximumCosts = maximumCosts ? maximumCosts : Infinity;
   }
 }

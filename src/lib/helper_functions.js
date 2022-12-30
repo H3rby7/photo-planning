@@ -2,9 +2,8 @@
  * ForEach callback for @see permute
  *
  * @callback permuteForEachCallback
- * @param {any[]} permutation The mutable array reordered in the current permutation
- * @param {any} elementA The element that changed position with elementB in this iteration
- * @param {any} elementB The element that changed position with elementA in this iteration
+ * @param {!any[]} permutation The mutable array reordered in the current permutation
+ * @param {...any} changes The elements that changed positions in this iteration
  */
 
 /**
@@ -16,9 +15,9 @@
 /**
  * Apply a function to all possible permutations
  * 
- * @param {any[]} inputArr
- * @param {permuteForEachCallback} cb the function to execute for each permutation cycle
- * @param {functionWithNoArgs} updateHook hook to "inform" invoking function every 10 MIO iterations
+ * @param {!any[]} inputArr
+ * @param {!permuteForEachCallback} cb the function to execute for each permutation cycle
+ * @param {!functionWithNoArgs} updateHook hook to "inform" invoking function every 10 MIO iterations
  * 
  */
 export function permute(inputArr, cb, updateHook) {
@@ -27,7 +26,7 @@ export function permute(inputArr, cb, updateHook) {
   var length = inputArr.length,
       c = new Array(length).fill(0),
       i = 1, k, p;
-  cb(inputArr);
+  cb(inputArr, ...inputArr);
 
   while (i < length) {
     lastUpdateSince++;

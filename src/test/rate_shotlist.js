@@ -1,5 +1,4 @@
 import { Prices, rateShotChange } from "../app/rate.js";
-import { rateShotList } from "../app/optimizer.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
 /**

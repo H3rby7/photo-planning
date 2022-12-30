@@ -1,5 +1,5 @@
-import { Shot } from "./classes.js";
-import { Prices, rateShotChange } from "./rate.js";
+import { InputData, Shot } from "./classes.js";
+import { updateIdlesByActor, Prices, rateShotChange } from "./rate.js";
 
 export class ShotChangeMap {
 
@@ -37,5 +37,51 @@ export class ShotChangeMap {
    */
   getCostChange(shotA, shotB) {
     return this.costs[shotA.id * shotB.id];
+  }
+}
+
+export class ActorIdleMap {
+  actorIdles = [];
+
+  /**
+   * 
+   * @param {!InputData} inputData 
+   */
+  initialize(inputData) {
+    inputData.people.map(p => p.name).forEach(name => {
+      this.actorIdles.push(new ActorIdle(name, 0, inputData.shots.length, inputData.shots.length));
+    })
+    updateIdlesByActor(inputData.shots, this.actorIdles);
+  }
+  
+}
+
+export class ActorIdle {
+
+  /**
+   * 
+   * @param {!string} actorName 
+   * @param {number} firstShot 
+   * @param {number} lastShot 
+   * @param {number} idles 
+   */
+  constructor(actorName, firstShot, lastShot, idles) {
+    this.actorName = actorName;
+    this.firstShot = firstShot;
+    this.lastShot = lastShot;
+    this.idles = idles;
+  }
+}
+
+export class Memory {
+  
+  /**
+   * 
+   * @param {!ShotChangeMap} shotChangeMap 
+   * @param {!ActorIdleMap} actorIdleMap 
+   */
+  constructor(shotChangeMap, actorIdleMap) {
+    this.shotChangeMap = shotChangeMap;
+    this.actorIdleMap = actorIdleMap;
   }
 }
