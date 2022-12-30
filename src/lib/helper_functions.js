@@ -26,7 +26,7 @@ export function permute(inputArr, cb, updateHook) {
   var length = inputArr.length,
       c = new Array(length).fill(0),
       i = 1, k, p;
-  cb(inputArr, ...Object.keys(inputArr));
+  cb(inputArr, ...Object.keys(inputArr).map(k => parseInt(k, 10)));
 
   while (i < length) {
     lastUpdateSince++;
