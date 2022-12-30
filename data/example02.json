@@ -24,7 +24,7 @@
     {
       "shotName": "on the street",
       "characters": [
-        {"character": "protagonist", "costume": "1970s grey suit"},
+        {"character": "sidekick", "costume": "liefer uniform"},
         {"character": "homeless guy", "costume": "rugs"}
       ],
       "props": ["cart", "lantern"],
@@ -37,6 +37,15 @@
         {"character": "sidekick", "costume": "liefer uniform"}
       ],
       "props": ["book", "plant", "pizza"],
+      "location": "home"
+    },
+    {
+      "shotName": "at home (nightmare)",
+      "characters": [
+        {"character": "protagonist", "costume": "home in jogging pants"},
+        {"character": "antagonist", "costume": "evil devil clothes"}
+      ],
+      "props": ["book", "plant", "pizza", "flames"],
       "location": "home"
     }
   ]
