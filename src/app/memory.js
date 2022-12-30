@@ -58,6 +58,11 @@ export class ActorIdleMap {
     })
     updateIdlesByActor(inputData.shots, this.actorIdles);
   }
+
+  print() {
+    const idleCount = this.actorIdles.map(a => a.idles).reduce((partialSum, a) => partialSum + a, 0);
+    console.log(`TOTAL idles: '${idleCount}' -> ${JSON.stringify(this.actorIdles)}`);
+  }
   
 }
 

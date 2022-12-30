@@ -1,6 +1,6 @@
 import { Character, CharacterInCostume, InputData, Person } from "../app/classes.js";
 import { ActorIdleMap, Memory } from "../app/memory.js";
-import { calculateCostOfIdle, isActorIdleAffectedByChange } from "../app/optimizer.js";
+import { calculateCostOfIdle, isActorIdleAffectedByChange, updateIdles } from "../app/optimizer.js";
 import { Prices, RatingConditions } from "../app/rate.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
@@ -37,14 +37,15 @@ const inputDataStub = new InputData(
  */
 export function addTests_calculateCostOfIdle(TESTS) {
 
-  TESTS.add("calculateCostOfIdle", (testName) => {
+  TESTS.add("updateIdles+calculateCostOfIdle", (testName) => {
     // SETUP
     const actorIdleMap = new ActorIdleMap();
     actorIdleMap.initialize(inputDataStub);
     const memory = new Memory({}, actorIdleMap);
     const changedIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     // EXECUTION
-    const result = calculateCostOfIdle(shotList, memory, new RatingConditions(new Prices(0, 0, 2), Infinity), changedIndices);
+    updateIdles(shotList, memory, changedIndices);
+    const result = calculateCostOfIdle(memory, 2);
     // INTERPRETATION
     let msg = null;
     if (result !== 32) {

@@ -92,11 +92,12 @@ export function optimizeShotList(inputData) {
    */
   function ratePermutation(shots, ...changedIndices) {
     const rating = rateShotList(shots, memory, ratingConditions, changedIndices);
-    if (rating < best.totalCosts) {
-      const switchCosts = calculateCostOfShotChanges(shots, shotChangeMap, Infinity);
-      best = new Best(shots, switchCosts, rating - switchCosts);
+    if ((rating.switch + rating.idle) < best.totalCosts) {
+      best = new Best(shots, rating.switch, rating.idle);
       ratingConditions.maximumCosts = best.totalCosts;
+      console.log("************ NEW BEST FOUND ************");
       best.print();
+      memory.actorIdleMap.print();
     }
   }
 
@@ -122,23 +123,10 @@ function calculateCostOfShotChanges(shots, shotChangeMap, maximum) {
 }
 
 /**
- * @param {!Shot[]} shots
- * @param {!Memory} memory
- * @param {!RatingConditions} conditions
- * @param {!number[]} changedIndices
- * 
- * @returns {!number} Total price, where low is more efficient
+ * @typedef {Object} totalCosts
+ * @property {number} switch costs for shot changes
+ * @property {number} idle costs for actor idling
  */
-export function rateShotList(shots, memory, conditions, changedIndices) {
-  let totalCosts = 0;
-  // Cost for Shot Changes
-  totalCosts += calculateCostOfShotChanges(shots, memory.shotChangeMap, conditions.maximumCosts);
-  if (totalCosts >= conditions.maximumCosts) {
-    return totalCosts;
-  }
-  totalCosts += calculateCostOfIdle(shots, memory, conditions, changedIndices);
-  return totalCosts;
-}
 
 /**
  * @param {!Shot[]} shots
@@ -146,9 +134,29 @@ export function rateShotList(shots, memory, conditions, changedIndices) {
  * @param {!RatingConditions} conditions
  * @param {!number[]} changedIndices
  * 
- * @returns {!number} Total price, where low is more efficient
+ * @returns {!totalCosts} Total price, where low is more efficient
  */
-export function calculateCostOfIdle(shots, memory, conditions, changedIndices) {
+export function rateShotList(shots, memory, conditions, changedIndices) {
+  const totalCosts = {
+    switch: 0,
+    idle: 0
+  };
+  // Cost for Shot Changes
+  totalCosts.switch = calculateCostOfShotChanges(shots, memory.shotChangeMap, conditions.maximumCosts);
+  if (totalCosts.switch + totalCosts.idle >= conditions.maximumCosts) {
+    return totalCosts.switch + totalCosts.idle;
+  }
+  updateIdles(shots, memory, changedIndices);
+  totalCosts.idle = calculateCostOfIdle(memory, conditions.prices.actorIsPresent);
+  return totalCosts;
+}
+
+/**
+ * @param {!Shot[]} shots
+ * @param {!Memory} memory
+ * @param {!number[]} changedIndices
+ */
+export function updateIdles(shots, memory, changedIndices) {
   changedIndices.sort((a, b) => a - b);
   const lowestChange = changedIndices[0];
   const highestChange = changedIndices[changedIndices.length - 1];
@@ -160,7 +168,15 @@ export function calculateCostOfIdle(shots, memory, conditions, changedIndices) {
   const affectedIdles = idles.filter(i => isActorIdleAffectedByChange(i, lowestChange, highestChange));
   // TODO: optimize by reducing the shotList length (only go over relevant part)
   updateIdlesByActor(shots, affectedIdles);
-  const idlePrice = conditions.prices.actorIsPresent;
+}
+
+/**
+ * @param {!Memory} memory
+ * @param {!number} idlePrice
+ * 
+ * @returns {!number} Total price, where low is more efficient
+ */
+export function calculateCostOfIdle(memory, idlePrice) {
   const idleCosts = idlePrice * memory.actorIdleMap.actorIdles
     .map(a => a.idles)
     .reduce((partialSum, a) => partialSum + a, 0);
