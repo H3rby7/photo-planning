@@ -23,7 +23,7 @@ export function addTests_updateIdlesByActor(TESTS) {
     // INTERPRETATION
     let msg = null;
     const results = [
-      expectEqual(idles[0], new ActorIdle("A", 0, 0, 0)),
+      actorIdleExpectEqual(idles[0], new ActorIdle("A", 0, 0, 0)),
     ];
     if (results.find(r => !r.equal)) {
       msg = JSON.stringify(results.filter(r => !r.equal).map(r => r.msg));
@@ -40,7 +40,7 @@ export function addTests_updateIdlesByActor(TESTS) {
     // INTERPRETATION
     let msg = null;
     const results = [
-      expectEqual(idles[0], new ActorIdle("A", 0, 0, 0)),
+      actorIdleExpectEqual(idles[0], new ActorIdle("A", 0, 0, 0)),
     ];
     if (results.find(r => !r.equal)) {
       msg = JSON.stringify(results.filter(r => !r.equal).map(r => r.msg));
@@ -58,7 +58,7 @@ export function addTests_updateIdlesByActor(TESTS) {
     // INTERPRETATION
     let msg = null;
     const results = [
-      expectEqual(idles[0], new ActorIdle("A", 0, 3, 2)),
+      actorIdleExpectEqual(idles[0], new ActorIdle("A", 0, 3, 2)),
     ];
     if (results.find(r => !r.equal)) {
       msg = JSON.stringify(results.filter(r => !r.equal).map(r => r.msg));
@@ -76,7 +76,7 @@ export function addTests_updateIdlesByActor(TESTS) {
     // INTERPRETATION
     let msg = null;
     const results = [
-      expectEqual(idles[0], new ActorIdle("A", 0, 3, 1)),
+      actorIdleExpectEqual(idles[0], new ActorIdle("A", 0, 3, 1)),
     ];
     if (results.find(r => !r.equal)) {
       msg = JSON.stringify(results.filter(r => !r.equal).map(r => r.msg));
@@ -94,7 +94,7 @@ export function addTests_updateIdlesByActor(TESTS) {
     // INTERPRETATION
     let msg = null;
     const results = [
-      expectEqual(idles[0], new ActorIdle("A", 0, 3, 0)),
+      actorIdleExpectEqual(idles[0], new ActorIdle("A", 0, 3, 0)),
     ];
     if (results.find(r => !r.equal)) {
       msg = JSON.stringify(results.filter(r => !r.equal).map(r => r.msg));
@@ -104,20 +104,12 @@ export function addTests_updateIdlesByActor(TESTS) {
 
 }
 
-function setupIdles() {
-  return [
-    new ActorIdle("A", 0, 10, 0),
-    new ActorIdle("B", 0, 10, 0),
-    new ActorIdle("C", 0, 10, 0),
-  ]
-}
-
 /**
  * 
  * @param {ActorIdle} a 
  * @param {ActorIdle} b 
  */
-function expectEqual(a, b) {
+export function actorIdleExpectEqual(a, b) {
   if (a.actorName !== b.actorName) {
     return {equal: false, msg: `Names not equal -> '${a.actorName}' !== '${b.actorName}'`};
   }

@@ -1,8 +1,8 @@
 import { Character, CharacterInCostume, InputData, Person } from "../app/classes.js";
-import { ActorIdleMap, Memory } from "../app/memory.js";
-import { calculateCostOfIdle, isActorIdleAffectedByChange, updateIdles } from "../app/optimizer.js";
-import { Prices, RatingConditions } from "../app/rate.js";
+import { ActorIdle, ActorIdleMap, Memory } from "../app/memory.js";
+import { calculateCostOfIdle, updateIdles } from "../app/optimizer.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
+import { actorIdleExpectEqual } from "./rate_updateIdlesByActor.js";
 
 const ALEX = new CharacterInCostume(new Character("Character of Alex", new Person("Alex")), "anything");
 const BERNARD = new CharacterInCostume(new Character("Character of Bernard", new Person("Bernard")), "anything");
@@ -36,6 +36,29 @@ const inputDataStub = new InputData(
  * @param {!Tests} TESTS the map of tests
  */
 export function addTests_calculateCostOfIdle(TESTS) {
+
+  TESTS.add("updateIdles", (testName) => {
+    // SETUP
+    const actorIdleMap = new ActorIdleMap();
+    actorIdleMap.initialize(inputDataStub);
+    const memory = new Memory({}, actorIdleMap);
+    const changedIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    // EXECUTION
+    updateIdles(shotList, memory, changedIndices);
+    // INTERPRETATION
+    let msg = null;
+    const idles = actorIdleMap.actorIdles;
+    const results = [
+      actorIdleExpectEqual(idles[0], new ActorIdle("Alex", 1, 9, 1)),
+      actorIdleExpectEqual(idles[1], new ActorIdle("Bernard", 0, 9, 6)),
+      actorIdleExpectEqual(idles[2], new ActorIdle("Patricia", 1, 9, 5)),
+      actorIdleExpectEqual(idles[3], new ActorIdle("Kim", 0, 9, 4)),
+    ];
+    if (results.find(r => !r.equal)) {
+      msg = JSON.stringify(results.filter(r => !r.equal).map(r => r.msg));
+    }
+    return TestHelpers.printTestResult(testName, msg);
+  });
 
   TESTS.add("updateIdles+calculateCostOfIdle", (testName) => {
     // SETUP
