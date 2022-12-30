@@ -1,6 +1,6 @@
-import { permute, printSummaryForShotList } from "../lib/helper_functions.js";
+import { permute } from "../lib/helper_functions.js";
 import { InputData } from "./classes.js";
-import { Prices, rateShotList } from "./rate.js";
+import { Prices, rateShotList, printSummaryForShotList } from "./rate.js";
 
 const upload = document.getElementById("upload");
 const preview = document.getElementById("json-preview");

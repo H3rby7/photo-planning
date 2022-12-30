@@ -82,3 +82,12 @@ export class Prices {
     this.actorIsPresent = actorIsPresent;
   }
 }
+
+export function printSummaryForShotList(shots, prices, progress) {
+  const _shots = shots.map(s => s.copy());
+  const rating = rateShotList(_shots, prices, Infinity);
+  const idlePrice = rateCostOfActorIdle(_shots, prices);
+  const switchPrice = rating - idlePrice;
+  console.log(`${progress ? progress + '% done' : ''}Idle Price: ${idlePrice}, Switch Price: ${switchPrice}, TOTAL: ${rating}.
+    \n${JSON.stringify(_shots.map(s => s.shotName))}`);
+}
