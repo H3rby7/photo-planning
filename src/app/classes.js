@@ -95,15 +95,6 @@ export class Shot {
       location: this.location
     }
   }
-
-  copy() {
-    return new Shot(
-      this.shotName,
-      this.characters,
-      this.props,
-      this.location
-    );
-  }
 }
 
 export class CharacterInCostume {

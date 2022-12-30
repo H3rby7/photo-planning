@@ -1,9 +1,13 @@
 import { permute } from "../lib/helper_functions.js";
-import { InputData } from "./classes.js";
+import { InputData, Shot } from "./classes.js";
 import { ShotChangeMap } from "./memory.js";
 import { Prices, rateCostOfActorIdle } from "./rate.js";
 
-export const prices = new Prices(4, 7, 2);
+const locationChangePrice = 4;
+const costumeChangePrice = 7;
+const actorIdlePrice = 2;
+
+export const prices = new Prices(locationChangePrice, costumeChangePrice, actorIdlePrice);
 
 class Best {
   /**
@@ -13,7 +17,7 @@ class Best {
    * @param {?number} idleCosts 
    */
   constructor(shotlist, switchCosts, idleCosts) {
-    this.shots = shotlist.map(s => s.copy());
+    this.shots = shotlist.slice();
     this._setCosts(switchCosts, idleCosts);
   }
 
@@ -71,6 +75,7 @@ export function optimizeShotList(inputData) {
   const timeTaken = finishTime - startTime;
   console.log(`Took ${timeTaken} millis and ended at at ${new Date(finishTime).toLocaleTimeString()}`);
   best.print();
+  console.log(best.shots);
 
   function ratePermutation(shots) {
     const rating = rateShotList(shots, prices, shotChangeMap, best.totalCosts);

@@ -26,7 +26,7 @@ export function permute(inputArr, action, updateHook) {
   var length = inputArr.length,
       c = new Array(length).fill(0),
       i = 1, k, p;
-  action(inputArr.slice());
+  action(inputArr);
 
   while (i < length) {
     lastUpdateSince++;
@@ -35,13 +35,16 @@ export function permute(inputArr, action, updateHook) {
       lastUpdateSince = 0;
     }
     if (c[i] < i) {
+      // calculate k
       k = i % 2 && c[i];
+      // switch [i] and [k]
       p = inputArr[i];
       inputArr[i] = inputArr[k];
       inputArr[k] = p;
+      // calculate next pos
       ++c[i];
       i = 1;
-      action(inputArr.slice());
+      action(inputArr);
     } else {
       c[i] = 0;
       ++i;
