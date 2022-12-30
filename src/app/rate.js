@@ -2,27 +2,6 @@ import { Shot } from "./classes.js";
 import { Rules } from "./rules.js";
 
 /**
- * @param {!Shot[]} shots
- * @param {!Prices} prices
- * @param {!number} maximum maximum costs, if we get higher inside a loop we can abort.
- * 
- * @returns {!number} Total price, where low is more efficient
- */
-export function rateShotList(shots, prices, maximum) {
-  let totalCosts = 0;
-  // Cost for Shot Changes
-  for(let i = 0; i < shots.length - 1; i++) {
-    totalCosts += rateShotChange(shots[i], shots[i + 1], prices);
-    if (totalCosts >= maximum) {
-      return totalCosts;
-    }
-  }
-  // Cost for Idle time of actors
-  totalCosts += rateCostOfActorIdle(shots, prices, maximum - totalCosts);
-  return totalCosts;
-}
-
-/**
  * 
  * @param {!Shot} a 
  * @param {!Shot} b 
@@ -81,13 +60,4 @@ export class Prices {
     this.actorGetsChanged = actorGetsChanged;
     this.actorIsPresent = actorIsPresent;
   }
-}
-
-export function printSummaryForShotList(shots, prices, progress) {
-  const _shots = shots.map(s => s.copy());
-  const rating = rateShotList(_shots, prices, Infinity);
-  const idlePrice = rateCostOfActorIdle(_shots, prices);
-  const switchPrice = rating - idlePrice;
-  console.log(`${progress ? progress + '% done' : ''}Idle Price: ${idlePrice}, Switch Price: ${switchPrice}, TOTAL: ${rating}.
-    \n${JSON.stringify(_shots.map(s => s.shotName))}`);
 }
