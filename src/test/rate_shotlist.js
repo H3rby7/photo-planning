@@ -1,11 +1,12 @@
-import { Prices, rateShotChange, rateShotList } from "../app/rate.js";
+import { Prices, rateShotChange } from "../app/rate.js";
+import { rateShotList } from "../app/optimizer.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
 /**
  * 
  * @param {!Tests} TESTS the map of tests
  */
-export function addTests_rateShotList(TESTS) {
+export function addTests_rateShotChange(TESTS) {
 
   TESTS.add("rateShotChange_sameLocationSameCostumes_expect_0", (testName) => {
     // SETUP

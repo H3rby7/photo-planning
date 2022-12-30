@@ -1,3 +1,5 @@
+import { PRIMES } from "./const.js";
+import { checkJsonMissesProperty } from "../lib/helper_functions.js";
 export class InputData {
   /**
    * 
@@ -42,6 +44,9 @@ export class InputData {
 }
 
 export class Shot {
+
+  static nextPrime = 0;
+
   /**
   * @param {!string} shotName Name of the Shot, must be unique
   * @param {?(string|'greenscreen')} location Set/Setting for the shot or null
@@ -49,6 +54,7 @@ export class Shot {
   * @param {!CharacterInCostume[]} characters List of required characters in costumes
   */
   constructor(shotName, characters, props, location) {
+    this.id = PRIMES[Shot.nextPrime++];
     this.shotName = shotName;
     this.characters = characters;
     this.props = props;
@@ -200,28 +206,5 @@ export class Person {
     return {
       name: this.name
     }
-  }
-}
-
-/**
- * Check the Object to have a property and throws if encountering an error.
- * 
- * @param {string} parent Identifier for the throwing class or method
- * @param {!Object} json The object to be checked
- * @param {!string} key The key to check for 
- * @param {?boolean} mustBeArray Also check if the value of the key is an array?
- * 
- * @throws {string} An error if a check fails
- */
-function checkJsonMissesProperty(parent, json, key, mustBeArray) {
-  if (!json[key]) {
-    err(`'${JSON.stringify(json)}' must define '${key}'`);
-  }
-  if (mustBeArray && !Array.isArray(json[key])) {
-    err(`'${key}' must be an array, but is '${json[key]}'`);
-  }
-
-  function err(msg) {
-    throw `Unmarshalling-Error in class ${parent.toUpperCase()}: ${msg}`;
   }
 }

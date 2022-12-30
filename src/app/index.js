@@ -1,13 +1,11 @@
-import { permute, printSummaryForShotList } from "../lib/helper_functions.js";
 import { InputData } from "./classes.js";
-import { Prices, rateShotList } from "./rate.js";
+import { optimizeShotList } from "./optimizer.js";
 
 const upload = document.getElementById("upload");
 const preview = document.getElementById("json-preview");
 const btn_optimize = document.getElementById("optimize");
 
 let data;
-const prices = new Prices(4, 7, 2);
 
 /**
  * Load the given data into the application and save to local storage
@@ -17,7 +15,6 @@ const prices = new Prices(4, 7, 2);
 function loadNewData(nextData) {
   data = InputData.fromSaveable(nextData);
   console.log(data);
-  printSummaryForShotList(data.shots, prices);
   const saveFile = data.toSaveable();
   preview.innerHTML = JSON.stringify(saveFile, null, 2);
   localStorage.setItem("photo-planner-data", JSON.stringify(saveFile));
@@ -52,38 +49,6 @@ function loadJSONFile() {
       alert("error reading file");
     }
   }
-}
-
-/**
- * @param {InputData} inputData
- */
-function optimizeShotList(inputData) {
-  if (!inputData) {
-    alert("Please load a file first!");
-    return;
-  }
-  const startTime = Date.now();
-  let best = {
-    shots: [],
-    rating: Infinity
-  };
-
-  permute(inputData.shots, action, () => {
-    printSummaryForShotList(best.shots, prices);
-  });
-
-  console.log("********** RESULT **********");
-  const timeTaken = Date.now() - startTime;
-  console.log(`Took ${timeTaken} millis.`);
-  printSummaryForShotList(best.shots, prices);
-
-  function action(shots) {
-    const rating = rateShotList(shots, prices, best.rating);
-    if (rating < best.rating) {
-      best = {shots: shots.map(s => s.copy()), rating: rating};
-    }
-  }
-
 }
 
 upload.addEventListener('change', loadJSONFile);

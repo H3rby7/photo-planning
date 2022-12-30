@@ -1,5 +1,3 @@
-import { rateCostOfActorIdle, rateShotList } from "../app/rate.js";
-
 /**
  * Shuffles array in place.
  * @param {Array} a items An array containing the items.
@@ -51,11 +49,25 @@ export function permute(inputArr, action, updateHook) {
   }
 }
 
-export function printSummaryForShotList(shots, prices, progress) {
-  const _shots = shots.map(s => s.copy());
-  const rating = rateShotList(_shots, prices, Infinity);
-  const idlePrice = rateCostOfActorIdle(_shots, prices);
-  const switchPrice = rating - idlePrice;
-  console.log(`${progress ? progress + '% done' : ''}Idle Price: ${idlePrice}, Switch Price: ${switchPrice}, TOTAL: ${rating}.
-    \n${JSON.stringify(_shots.map(s => s.shotName))}`);
+/**
+ * Check the Object to have a property and throws if encountering an error.
+ * 
+ * @param {string} parent Identifier for the throwing class or method
+ * @param {!Object} json The object to be checked
+ * @param {!string} key The key to check for 
+ * @param {?boolean} mustBeArray Also check if the value of the key is an array?
+ * 
+ * @throws {string} An error if a check fails
+ */
+export function checkJsonMissesProperty(parent, json, key, mustBeArray) {
+  if (!json[key]) {
+    err(`'${JSON.stringify(json)}' must define '${key}'`);
+  }
+  if (mustBeArray && !Array.isArray(json[key])) {
+    err(`'${key}' must be an array, but is '${json[key]}'`);
+  }
+
+  function err(msg) {
+    throw `Unmarshalling-Error in class ${parent.toUpperCase()}: ${msg}`;
+  }
 }
