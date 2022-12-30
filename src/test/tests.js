@@ -6,6 +6,7 @@ import { addTests_rule_locationChange } from "./rule_locationChange.js";
 import { addTests_idleAffectedByChange } from "./optimizer_idleAffectedByChange.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 import { addTests_updateIdlesByActor } from "./rate_updateIdlesByActor.js";
+import { addTests_calculateCostOfIdle } from "./optimizer_calculateCostOfIdle.js";
 
 const RUN_TESTS = true;
 
@@ -58,6 +59,7 @@ const RUN_TESTS = true;
   addTests_rateActorIdle(TESTS);
   addTests_idleAffectedByChange(TESTS);
   addTests_updateIdlesByActor(TESTS);
+  addTests_calculateCostOfIdle(TESTS);
 
   TESTS.runTests();
 

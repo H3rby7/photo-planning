@@ -136,6 +136,19 @@ export function rateShotList(shots, memory, conditions, changedIndices) {
   if (totalCosts >= conditions.maximumCosts) {
     return totalCosts;
   }
+  totalCosts += calculateCostOfIdle(shots, memory, conditions, changedIndices);
+  return totalCosts;
+}
+
+/**
+ * @param {!Shot[]} shots
+ * @param {!Memory} memory
+ * @param {!RatingConditions} conditions
+ * @param {!number[]} changedIndices
+ * 
+ * @returns {!number} Total price, where low is more efficient
+ */
+export function calculateCostOfIdle(shots, memory, conditions, changedIndices) {
   changedIndices.sort((a, b) => a - b);
   const lowestChange = changedIndices[0];
   const highestChange = changedIndices[changedIndices.length - 1];
@@ -148,10 +161,10 @@ export function rateShotList(shots, memory, conditions, changedIndices) {
   // TODO: optimize by reducing the shotList length (only go over relevant part)
   updateIdlesByActor(shots, affectedIdles);
   const idlePrice = conditions.prices.actorIsPresent;
-  totalCosts += idlePrice * memory.actorIdleMap.actorIdles
+  const idleCosts = idlePrice * memory.actorIdleMap.actorIdles
     .map(a => a.idles)
     .reduce((partialSum, a) => partialSum + a, 0);
-  return totalCosts;
+  return idleCosts;
 }
 
 /**
