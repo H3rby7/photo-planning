@@ -7,6 +7,7 @@ import { addTests_idleAffectedByChange } from "./optimizer_idleAffectedByChange.
 import { TestHelpers, Tests } from "./test_helpers.js";
 import { addTests_updateIdlesByActor } from "./rate_updateIdlesByActor.js";
 import { addTests_calculateCostOfIdle } from "./optimizer_calculateCostOfIdle.js";
+import { addTests_getActorsAffectedByChange } from "./optimizer_getActorsAffectedByChange.js";
 
 const RUN_TESTS = true;
 
@@ -60,6 +61,7 @@ const RUN_TESTS = true;
   addTests_idleAffectedByChange(TESTS);
   addTests_updateIdlesByActor(TESTS);
   addTests_calculateCostOfIdle(TESTS);
+  addTests_getActorsAffectedByChange(TESTS);
 
   TESTS.runTests();
 

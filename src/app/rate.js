@@ -64,7 +64,8 @@ export function updateIdlesByActor(shotList, actorIdles) {
   });
   const shotsByActorMap = {};
   for (let i = 0; i < shotList.length; i++) {
-    const peopleInShot = Object.keys(shotList[i].costumeByPeople).filter(p => actors.includes(p));
+    const peopleInShot = Object.keys(shotList[i].costumeByPeople)
+      .filter(p => actors.indexOf(p) > -1);
     for (const a in peopleInShot) {
       const actorName = peopleInShot[a];
       const lastShot = shotsByActorMap[actorName];

@@ -1,7 +1,7 @@
 import { permute } from "../lib/helper_functions.js";
 import { InputData, Shot } from "./classes.js";
 import { ActorIdleMap, Memory, ShotChangeMap } from "./memory.js";
-import { updateIdlesByActor, Prices, RatingConditions } from "./rate.js";
+import { updateIdlesByActor, Prices, RatingConditions, rateCostOfActorIdle } from "./rate.js";
 
 const locationChangePrice = 4;
 const costumeChangePrice = 7;
@@ -98,6 +98,7 @@ export function optimizeShotList(inputData) {
       ratingConditions.maximumCosts = best.totalCosts;
       console.log("************ NEW BEST FOUND ************");
       best.print();
+      console.log(`Old rating says idle is: ${rateCostOfActorIdle(shots, prices, Infinity)}`);
       memory.actorIdleMap.print();
     }
   }
@@ -161,14 +162,23 @@ export function updateIdles(shots, memory, changedIndices) {
   changedIndices.sort((a, b) => a - b);
   const lowestChange = changedIndices[0];
   const highestChange = changedIndices[changedIndices.length - 1];
+  // const affectedActors = getActorsAffectedByChange(shots, changedIndices);
   // Cost for Idle time of actors
-  const affectedActors = changedIndices.map(i => shots[i])
-    .flatMap(ch => Object.keys(ch.costumeByPeople));
-  const idles = memory.actorIdleMap.actorIdles
-    .filter(a => affectedActors.includes(a.actorName));
+  const idles = memory.actorIdleMap.actorIdles;
+  // const idles = memory.actorIdleMap.actorIdles.filter(a => affectedActors.indexOf(a.actorName) > -1);
   const affectedIdles = idles.filter(i => isActorIdleAffectedByChange(i, lowestChange, highestChange));
   // TODO: optimize by reducing the shotList length (only go over relevant part)
   updateIdlesByActor(shots, affectedIdles);
+}
+
+/**
+ * 
+ * @param {!shot[]} shots 
+ * @param {!number[]} changedIndices 
+ */
+export function getActorsAffectedByChange(shots, changedIndices) {
+  const affectedShots = changedIndices.map(i => shots[i]);
+  return affectedShots.flatMap(ch => Object.keys(ch.costumeByPeople));
 }
 
 /**
