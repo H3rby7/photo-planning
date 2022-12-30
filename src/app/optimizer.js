@@ -94,7 +94,7 @@ export function optimizeShotList(inputData) {
 function calculateCostOfShotChanges(shots, shotChangeMap, maximum) {
   let totalCosts = 0;
   for(let i = 0; i < shots.length - 1; i++) {
-    totalCosts += shotChangeMap.costs[shots[i].id * shots[i + 1].id];
+    totalCosts += shotChangeMap.getCostChange(shots[i], shots[i + 1]);
     if (totalCosts >= maximum) {
       return totalCosts;
     }

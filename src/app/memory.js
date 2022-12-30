@@ -29,4 +29,13 @@ export class ShotChangeMap {
       }
     }
   }
+
+  /**
+   * 
+   * @param {!Shot} shotA 
+   * @param {!Shot} shotB 
+   */
+  getCostChange(shotA, shotB) {
+    return this.costs[shotA.id * shotB.id];
+  }
 }
