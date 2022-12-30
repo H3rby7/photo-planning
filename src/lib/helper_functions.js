@@ -14,19 +14,35 @@ export function shuffle(a) {
 }
 
 /**
+ * ForEach callback for @see permute
+ *
+ * @callback permuteForEachCallback
+ * @param {any[]} permutation The mutable array reordered in the current permutation
+ * @param {any} elementA The element that changed position with elementB in this iteration
+ * @param {any} elementB The element that changed position with elementA in this iteration
+ */
+
+/**
+ * Update hook for @see permute
+ *
+ * @callback functionWithNoArgs
+ */
+
+/**
  * Apply a function to all possible permutations
  * 
  * @param {any[]} inputArr
- * @param {action} action the function
+ * @param {permuteForEachCallback} cb the function to execute for each permutation cycle
+ * @param {functionWithNoArgs} updateHook hook to "inform" invoking function every 10 MIO iterations
  * 
  */
-export function permute(inputArr, action, updateHook) {
+export function permute(inputArr, cb, updateHook) {
   let lastUpdateSince = 0;
 
   var length = inputArr.length,
       c = new Array(length).fill(0),
       i = 1, k, p;
-  action(inputArr);
+  cb(inputArr);
 
   while (i < length) {
     lastUpdateSince++;
@@ -44,7 +60,7 @@ export function permute(inputArr, action, updateHook) {
       // calculate next pos
       ++c[i];
       i = 1;
-      action(inputArr);
+      cb(inputArr, inputArr[i], inputArr[k]);
     } else {
       c[i] = 0;
       ++i;
