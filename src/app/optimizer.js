@@ -76,6 +76,7 @@ export function optimizeShotList(inputData) {
   console.log(`Starting to permute`);
   permute(inputData.shots, ratePermutation, () => {
     best.print();
+    memory.actorIdleMap.print();
   });
 
   console.log("********** RESULT **********");
