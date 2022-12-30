@@ -3,6 +3,7 @@ import { addTests_rateActorIdle } from "./rate_costOfActorIdle.js";
 import { addTests_rateShotChange } from "./rate_shotlist.js";
 import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
 import { addTests_rule_locationChange } from "./rule_locationChange.js";
+import { addTests_idleAffectedByChange } from "./optimizer_idleAffectedByChange.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
 const RUN_TESTS = true;
@@ -54,6 +55,7 @@ const RUN_TESTS = true;
   addTests_rule_actorNeedsChange(TESTS);
   addTests_rateShotChange(TESTS);
   addTests_rateActorIdle(TESTS);
+  addTests_idleAffectedByChange(TESTS);
 
   TESTS.runTests();
 

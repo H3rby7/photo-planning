@@ -41,6 +41,11 @@ export class ShotChangeMap {
 }
 
 export class ActorIdleMap {
+
+  /**
+   * @type {ActorIdle[]} actorIdles
+   * @public
+   */
   actorIdles = [];
 
   /**

@@ -3,7 +3,7 @@
  *
  * @callback permuteForEachCallback
  * @param {!any[]} permutation The mutable array reordered in the current permutation
- * @param {...any} changes The elements that changed positions in this iteration
+ * @param {...number} changedIndices The indices of the elements, that changed positions, in this iteration
  */
 
 /**
@@ -26,7 +26,7 @@ export function permute(inputArr, cb, updateHook) {
   var length = inputArr.length,
       c = new Array(length).fill(0),
       i = 1, k, p;
-  cb(inputArr, ...inputArr);
+  cb(inputArr, ...Object.keys(inputArr));
 
   while (i < length) {
     lastUpdateSince++;
@@ -44,7 +44,7 @@ export function permute(inputArr, cb, updateHook) {
       // calculate next pos
       ++c[i];
       i = 1;
-      cb(inputArr, inputArr[i], inputArr[k]);
+      cb(inputArr, i, k);
     } else {
       c[i] = 0;
       ++i;
