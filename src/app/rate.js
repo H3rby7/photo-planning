@@ -59,8 +59,8 @@ export function updateIdlesByActor(shotList, actorIdles) {
   const actors = actorIdles.map(a => a.actorName);
   actorIdles.forEach(a => {
     a.idles = 0;
-    delete a.firstShot;
-    delete a.lastShot;
+    a.firstShot = 0;
+    a.lastShot = 0;
   });
   const shotsByActorMap = {};
   for (let i = 0; i < shotList.length; i++) {
