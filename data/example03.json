@@ -1,0 +1,108 @@
+{
+  "people": [
+    {"name": "Alex"},
+    {"name": "Bernard"},
+    {"name": "Patricia"},
+    {"name": "Kim"}
+  ],
+  "characters": [
+    {"characterName": "protagonist", "person": "Alex"},
+    {"characterName": "sidekick", "person": "Patricia"},
+    {"characterName": "homeless guy", "person": "Bernard"},
+    {"characterName": "antagonist", "person": "Kim"}
+  ],
+  "shots": [
+    {
+      "shotName": "opening number",
+      "characters": [
+        {"character": "protagonist", "costume": "1970s grey suit"},
+        {"character": "antagonist", "costume": "fancy disco outfit"}
+      ],
+      "props": ["book", "scepter", "fruit"],
+      "location": "throne"
+    },
+    {
+      "shotName": "on the street",
+      "characters": [
+        {"character": "protagonist", "costume": "1970s grey suit"},
+        {"character": "homeless guy", "costume": "rugs"}
+      ],
+      "props": ["cart", "lantern"],
+      "location": "street"
+    },
+    {
+      "shotName": "at home",
+      "characters": [
+        {"character": "protagonist", "costume": "home in jogging pants"},
+        {"character": "sidekick", "costume": "liefer uniform"}
+      ],
+      "props": ["book", "plant", "pizza"],
+      "location": "home"
+    },
+    {
+      "shotName": "at home after intermission",
+      "characters": [
+        {"character": "protagonist", "costume": "home in jogging pants"},
+        {"character": "sidekick", "costume": "liefer uniform"}
+      ],
+      "props": ["book", "plant", "pizza"],
+      "location": "home"
+    },
+    {
+      "shotName": "at home (nightmare)",
+      "characters": [
+        {"character": "protagonist", "costume": "home in jogging pants"},
+        {"character": "antagonist", "costume": "evil devil clothes"}
+      ],
+      "props": ["book", "plant", "pizza", "flames"],
+      "location": "home"
+    },
+    {
+      "shotName": "cafe",
+      "characters": [
+        {"character": "antagonist", "costume": "evil devil clothes"},
+        {"character": "sidekick", "costume": "liefer uniform"}
+      ],
+      "props": ["table", "coffee", "cake", "books"],
+      "location": "cafe"
+    },
+    {
+      "shotName": "at evil place",
+      "characters": [
+        {"character": "antagonist", "costume": "evil devil clothes"},
+        {"character": "homeless guy", "costume": "rugs"}
+      ],
+      "props": ["table", "plant", "bookshelf", "giant laser"],
+      "location": "evil place"
+    },
+    {
+      "shotName": "finale",
+      "characters": [
+        {"character": "protagonist", "costume": "1970s grey suit"},
+        {"character": "homeless guy", "costume": "fancy suit"}
+      ],
+      "props": ["book", "scepter", "fruit", "cart"],
+      "location": "throne"
+    },
+    {
+      "shotName": "poster",
+      "characters": [
+        {"character": "protagonist", "costume": "1970s grey suit, burned"},
+        {"character": "antagonist", "costume": "fancy suit"}
+      ],
+      "props": ["cardboard explosion", "car"],
+      "location": "greenscreen"
+    },
+    {
+      "shotName": "full cast",
+      "characters": [
+        {"character": "protagonist", "costume": "personal clothes"},
+        {"character": "sidekick", "costume": "personal clothes"},
+        {"character": "homeless guy", "costume": "personal clothes"},
+        {"character": "antagonist", "costume": "personal clothes"}
+      ],
+      "props": [],
+      "location": "steps in front of building"
+    }
+  ]
+}
