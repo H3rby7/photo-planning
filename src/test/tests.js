@@ -5,15 +5,14 @@ import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
 import { addTests_rule_locationChange } from "./rule_locationChange.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
-const RUN_TESTS = true;
+/**
+ * This weird method of testing is due to legacy code from running in a browser
+ */
 
-(() => {
+export function runTests() {
+  console.log("Running tests ...");
 
   const TESTS = new Tests();
-
-  if (!RUN_TESTS) {
-    return;
-  }
 
   TESTS.add("loadSaveLoad", (testName) => {
     // SETUP
@@ -57,4 +56,4 @@ const RUN_TESTS = true;
 
   TESTS.runTests();
 
-})();
+}

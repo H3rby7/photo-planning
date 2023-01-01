@@ -1,0 +1,21 @@
+{
+  "name": "photo-planner",
+  "version": "0.1.0",
+  "description": "Feed with fotoshooting plans, get an optimized sequence",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node src/index.js test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/H3rby7/photo-planning.git"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/H3rby7/photo-planning/issues"
+  },
+  "homepage": "https://github.com/H3rby7/photo-planning#readme"
+}
