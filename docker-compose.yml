@@ -1,9 +1,9 @@
 version: "3"
 services:
-  www:
-    image: aikain/simplehttpserver:0.1
-    restart: always
-    ports:
-      - "80:80"
+  app:
+    image: node:19.3
+    entrypoint: /bin/bash
+    user: "node"
+    working_dir: /home/node/app
     volumes:
-      - "./:/var/www"
+      - "./:/home/node/app"
