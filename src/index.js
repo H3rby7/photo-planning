@@ -1,4 +1,7 @@
 import { runTests } from "./test/tests.js";
+import * as fs from 'fs';
+import { optimizeShotList } from "./app/optimizer.js";
+import { InputData } from "./app/classes.js";
 
 const DEBUG_NODE_SCRIPT = false;
 if (DEBUG_NODE_SCRIPT) console.log(process.argv);
@@ -39,7 +42,11 @@ function printHelp(cause) {
 }
 
 function executeRunOptimize(options) {
-  console.log("Running optimization ...");
+  console.log("Optimizing " + options[0]);
+  const rawdata = fs.readFileSync(options[0]);
+  const parsed = JSON.parse(rawdata);
+  const inputData = InputData.fromSaveable(parsed);
+  optimizeShotList(inputData);
 }
 
 function cli() {
