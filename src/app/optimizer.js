@@ -23,6 +23,7 @@ export function optimizeShotList(inputData, filePath) {
     alert("Please pass a filePath to store updates!");
     return;
   }
+  preSortShotList(inputData);
   const startTime = Date.now();
   console.log(`Started at ${new Date(startTime).toLocaleTimeString()}`);
 
@@ -105,4 +106,28 @@ export function rateShotList(shots, prices, shotChangeMap, maximum) {
   // Cost for Idle time of actors
   totalCosts += rateCostOfActorIdle(shots, prices, maximum - totalCosts);
   return totalCosts;
+}
+
+/**
+ * @param {!InputData} inputData containing the photoshooting infos
+ */
+function preSortShotList(inputData) {
+  const shots = inputData.shots;
+  const preSortedShotOrder = new Array(shots.length);
+  const actorCountByShot = [];
+  for (let i = 0; i < shots.length; i++) {
+    actorCountByShot.push({shot: i, count: shots[i].characters.length});
+  }
+  actorCountByShot.sort((a, b) => a.count > b.count);
+  const m = Math.round((shots.length - 1) / 2);
+  let i = 0;
+  let before = 1;
+  while (actorCountByShot.length) {
+    preSortedShotOrder[m + (i * before)] = shots[actorCountByShot.shift().shot];
+    if (before === 1) {
+      i++;
+    }
+    before *= -1;
+  }
+  inputData.shots = preSortedShotOrder;
 }
