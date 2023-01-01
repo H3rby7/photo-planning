@@ -1,7 +1,8 @@
-import { permute } from "../lib/helper_functions.js";
-import { InputData, Shot } from "./classes.js";
+import { PermutationState, permute } from "../lib/helper_functions.js";
+import { InputData, Shot, Best } from "./classes.js";
 import { ShotChangeMap } from "./memory.js";
 import { Prices, rateCostOfActorIdle } from "./rate.js";
+import { OptimizationState } from "./saveLoad.js";
 
 const locationChangePrice = 4;
 const costumeChangePrice = 7;
@@ -9,50 +10,17 @@ const actorIdlePrice = 2;
 
 export const prices = new Prices(locationChangePrice, costumeChangePrice, actorIdlePrice);
 
-class Best {
-  /**
-   * 
-   * @param {!Shot[]} shotlist 
-   * @param {?number} switchCosts 
-   * @param {?number} idleCosts 
-   */
-  constructor(shotlist, switchCosts, idleCosts) {
-    this.shots = shotlist.slice();
-    this._setCosts(switchCosts, idleCosts);
-  }
-
-  /**
-   * 
-   * @param {?number} switchCosts 
-   * @param {?number} idleCosts 
-   */
-  _setCosts(switchCosts, idleCosts) {
-    let useInfinity = false;
-    if (switchCosts || switchCosts === 0) {
-      this.switchCosts = switchCosts;
-    } else {
-      useInfinity = true;
-    }
-    if (idleCosts || idleCosts === 0) {
-      this.idleCosts = idleCosts;
-    } else {
-      useInfinity = true;
-    }
-    this.totalCosts = useInfinity ? Infinity : (switchCosts + idleCosts);
-  }
-
-  print() {
-    console.log(`Idle Costs: ${this.idleCosts}, Switch Costs: ${this.switchCosts}, TOTAL Costs: ${this.totalCosts}.
-      \n${JSON.stringify(this.shots.map(s => s.shotName))}`);
-  }
-}
-
 /**
- * @param {InputData} inputData
+ * @param {!InputData} inputData containing the photoshooting infos
+ * @param {!string} filePath of the json file that was loaded. Needed to create temporary save files.
  */
-export function optimizeShotList(inputData) {
+export function optimizeShotList(inputData, filePath) {
   if (!inputData) {
-    alert("Please load a file first!");
+    alert("Please load a file!");
+    return;
+  }
+  if (!filePath) {
+    alert("Please pass a filePath to store updates!");
     return;
   }
   const startTime = Date.now();
@@ -60,15 +28,13 @@ export function optimizeShotList(inputData) {
 
   const shotChangeMap = new ShotChangeMap();
   shotChangeMap.addShotList(inputData.shots, prices);
-  console.log(`Calculated ShotChange costs`);
-  console.log(shotChangeMap.costs);
 
-  let best = new Best([]);
+  // try if we have a saved state we can work with.
+  const loadedState = OptimizationState.attemptLoadProgress(filePath);
+  let best = loadedState ? loadedState.best : new Best([]);
 
   console.log(`Starting to permute`);
-  permute(inputData.shots, ratePermutation, () => {
-    best.print();
-  });
+  permute(inputData.shots, ratePermutation, handleUpdate, loadedState ? loadedState.permutationState : null);
 
   console.log("********** RESULT **********");
   const finishTime = Date.now(); 
@@ -76,14 +42,28 @@ export function optimizeShotList(inputData) {
   console.log(`Took ${timeTaken} millis and ended at at ${new Date(finishTime).toLocaleTimeString()}`);
   best.print();
   console.log(best.shots);
+  OptimizationState.clearProgress(filePath);
 
+  /**
+   * 
+   * @param {!Shot[]} shots 
+   */
   function ratePermutation(shots) {
     const rating = rateShotList(shots, prices, shotChangeMap, best.totalCosts);
     if (rating < best.totalCosts) {
       const switchCosts = calculateCostOfShotChanges(shots, shotChangeMap, Infinity);
-      best = new Best(shots, switchCosts, rating - switchCosts);
+      best = new Best(shots.map(s => s.shotName), switchCosts, rating - switchCosts);
       best.print();
     }
+  }
+
+  /**
+   * 
+   * @param {PermutationState} permutationState 
+   */
+  function handleUpdate(permutationState) {
+    best.print();
+    new OptimizationState(permutationState, best).saveToFile(filePath);
   }
 
 }

@@ -42,11 +42,12 @@ function printHelp(cause) {
 }
 
 function executeRunOptimize(options) {
-  console.log("Optimizing " + options[0]);
-  const rawdata = fs.readFileSync(options[0]);
+  const filePath = options[0];
+  console.log("Optimizing " + filePath);
+  const rawdata = fs.readFileSync(filePath);
   const parsed = JSON.parse(rawdata);
   const inputData = InputData.fromSaveable(parsed);
-  optimizeShotList(inputData);
+  optimizeShotList(inputData, filePath);
 }
 
 function cli() {

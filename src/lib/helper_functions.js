@@ -1,3 +1,20 @@
+export class PermutationState {
+  
+  /**
+   * @see permute function arguments
+   * 
+   * @param {!number[]} c as used in @see permute
+   * @param {!number} i as used in @see permute
+   * @param {!number} k as used in @see permute
+   */
+  constructor (c, i, k) {
+    this.c = c;
+    this.i = i;
+    this.k = k;
+  }
+}
+
+
 /**
  * ForEach callback for @see permute
  *
@@ -10,7 +27,8 @@
 /**
  * Update hook for @see permute
  *
- * @callback functionWithNoArgs
+ * @callback permuteUpdateHook
+ * @param {PermutationState} currentState of the ongoing permutation
  */
 
 /**
@@ -18,21 +36,30 @@
  * 
  * @param {any[]} inputArr
  * @param {permuteForEachCallback} cb the function to execute for each permutation cycle
- * @param {functionWithNoArgs} updateHook hook to "inform" invoking function every 10 MIO iterations
- * 
+ * @param {permuteUpdateHook} updateHook hook to "inform" invoking function every 10 MIO iterations
+ * @param {?PermutationState} savedState state from a previous run
  */
-export function permute(inputArr, cb, updateHook) {
+export function permute(inputArr, cb, updateHook, savedState) {
   let lastUpdateSince = 0;
-
-  var length = inputArr.length,
-      c = new Array(length).fill(0),
-      i = 1, k, p;
+  let c, i, k, p;
+  const length = inputArr.length;
+  if (savedState) {
+    if (length !== savedState.c.length) {
+      throw "Loaded state is of different array size!";
+    }
+    c = savedState.c;
+    i = savedState.i;
+    k = savedState.k;
+  } else {
+    c = new Array(length).fill(0);
+    i = 1;
+  }
   cb(inputArr);
 
   while (i < length) {
     lastUpdateSince++;
     if (lastUpdateSince === 10000000) {
-      updateHook();
+      updateHook(new PermutationState([...c], i, k));
       lastUpdateSince = 0;
     }
     if (c[i] < i) {

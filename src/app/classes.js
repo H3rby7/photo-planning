@@ -199,3 +199,41 @@ export class Person {
     }
   }
 }
+
+export class Best {
+  /**
+   * 
+   * @param {!string[]} shotlist 
+   * @param {?number} switchCosts 
+   * @param {?number} idleCosts 
+   */
+  constructor(shotlist, switchCosts, idleCosts) {
+    this.shots = shotlist.slice();
+    this._setCosts(switchCosts, idleCosts);
+  }
+
+  /**
+   * 
+   * @param {?number} switchCosts 
+   * @param {?number} idleCosts 
+   */
+  _setCosts(switchCosts, idleCosts) {
+    let useInfinity = false;
+    if (switchCosts || switchCosts === 0) {
+      this.switchCosts = switchCosts;
+    } else {
+      useInfinity = true;
+    }
+    if (idleCosts || idleCosts === 0) {
+      this.idleCosts = idleCosts;
+    } else {
+      useInfinity = true;
+    }
+    this.totalCosts = useInfinity ? Infinity : (switchCosts + idleCosts);
+  }
+
+  print() {
+    console.log(`Idle Costs: ${this.idleCosts}, Switch Costs: ${this.switchCosts}, TOTAL Costs: ${this.totalCosts}.
+      \n${JSON.stringify(this.shots)}`);
+  }
+}
