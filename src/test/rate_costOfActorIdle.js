@@ -7,7 +7,7 @@ import { TestHelpers, Tests } from "./test_helpers.js";
  */
 export function addTests_rateActorIdle(TESTS) {
 
-  TESTS.add("rateActorIdle_noShots_expect_0", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: no shots EXPECTING 0", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const shotList = [];
@@ -21,7 +21,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_oneShotNoActors_expect_0", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: one shot with no actors EXPECTING 0", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const l1 = TestHelpers.createShot(null, []);
@@ -36,7 +36,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_oneShotOneActor_expect_0", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: one shot with one actor EXPECTING 0", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -52,7 +52,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_twoShotsOneActor_expect_0", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: two shots with same actor EXPECTING 0", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -69,7 +69,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_threeShotsWithBreakOneActor_expect_1", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: two shots with same actor, separated by one shot EXPECTING 1", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -88,7 +88,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_fourShotsWithBreakOneActor_expect_2", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: two shots with same actor, separated by two shots EXPECTING 2", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -108,7 +108,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_complexScenario01_expect_3", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: complex scenario01 EXPECTING 3", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -128,7 +128,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_complexScenario02_expect_0", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: complex scenario02 EXPECTING 0", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -145,7 +145,7 @@ export function addTests_rateActorIdle(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("rateActorIdle_complexScenario03_expect_5", (testName) => {
+  TESTS.add("RATE ACTOR IDLE -> GIVEN: complex scenario03 EXPECTING 5", (testName) => {
     // SETUP
     const prices = new Prices(0, 0, 1);
     const queen_party = TestHelpers.createCharacterInCostume("queen", "party outfit");

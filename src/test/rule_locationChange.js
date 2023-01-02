@@ -6,7 +6,7 @@ import { TestHelpers, Tests } from "./test_helpers.js";
  * @param {!Tests} TESTS the map of tests
  */
 export function addTests_rule_locationChange(TESTS) {
-  TESTS.add("locationChange_noLocations_expect_false", (testName) => {
+  TESTS.add("LOCATION CHANGE -> GIVEN: no locations EXPECTING false", (testName) => {
     // SETUP
     const l1 = TestHelpers.createShot();
     const l2 = TestHelpers.createShot();
@@ -20,7 +20,7 @@ export function addTests_rule_locationChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("locationChange_sameLocation_expect_false", (testName) => {
+  TESTS.add("LOCATION CHANGE -> GIVEN: same location EXPECTING false", (testName) => {
     // SETUP
     const l1 = TestHelpers.createShot("throne");
     const l2 = TestHelpers.createShot("throne");
@@ -34,7 +34,7 @@ export function addTests_rule_locationChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("locationChange_differentLocation_expect_true", (testName) => {
+  TESTS.add("LOCATION CHANGE -> GIVEN: different locations EXPECTING true", (testName) => {
     // SETUP
     const l1 = TestHelpers.createShot("throne");
     const l2 = TestHelpers.createShot("forest");

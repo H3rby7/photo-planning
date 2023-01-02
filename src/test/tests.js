@@ -14,7 +14,7 @@ export function runTests() {
 
   const TESTS = new Tests();
 
-  TESTS.add("loadSaveLoad", (testName) => {
+  TESTS.add("LOAD SAVE LOAD -> EXPECTING no errors.", (testName) => {
     // SETUP
     const testInput = {
       "people": [

@@ -6,7 +6,7 @@ import { TestHelpers } from "./test_helpers.js";
  * @param {!Tests} TESTS the map of tests
  */
 export function addTests_rule_actorNeedsChange(TESTS) {
-  TESTS.add("actorNeedsChange_noCostumes_expect_false", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: no costumes EXPECTING false", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen");
     const c2 = TestHelpers.createCharacterInCostume("queen");
@@ -24,7 +24,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("actorNeedsChange_sameCostume_expect_false", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: same costumes EXPECTING false", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
     const c2 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
@@ -42,7 +42,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("actorNeedsChange_differentActors_expect_false", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: different actors EXPECTING false", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
     const c2 = TestHelpers.createCharacterInCostume("barber", "barber outfit");
@@ -60,7 +60,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("actorNeedsChange_newActorSameCostumes_expect_false", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: same costume, but +1 actor EXPECTING false", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
     const c2 = TestHelpers.createCharacterInCostume("barber", "barber outfit");
@@ -78,7 +78,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("actorNeedsChange_differentCostumes_expect_change", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: same actor different costume EXPECTING true", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
     const c2 = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -96,7 +96,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("actorNeedsChange_twoActorsOneHasdifferentCostume_expect_change", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: same actor different costume and +1 actor EXPECTING true", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
     const c2 = TestHelpers.createCharacterInCostume("queen", "party outfit");
@@ -114,7 +114,7 @@ export function addTests_rule_actorNeedsChange(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
-  TESTS.add("actorNeedsChange_twoActorsHaveDifferentCostumes_expect_change", (testName) => {
+  TESTS.add("ACTOR NEEDS CHANGE -> GIVEN: same actors, both in different costume EXPECTING true", (testName) => {
     // SETUP
     const c1 = TestHelpers.createCharacterInCostume("queen", "soldier outfit");
     const c2 = TestHelpers.createCharacterInCostume("queen", "party outfit");
