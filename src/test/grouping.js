@@ -1,4 +1,4 @@
-import { shotsHaveSameCharactersInCostumes } from "../app/grouping.js";
+import { groupShots, shotsHaveSameCharactersInCostumes } from "../app/grouping.js";
 import { TestHelpers, Tests } from "./test_helpers.js";
 
 /**
@@ -86,6 +86,21 @@ export function addTests_grouping(TESTS) {
     let msg = null;
     if (result) {
       msg = "Should be different as first shot has 'A', second shot has 'B'";
+    }
+    return TestHelpers.printTestResult(testName, msg);
+  });
+
+  TESTS.add("GROUP SHOTS -> GIVEN: different locations EXPECTING no merge", (testName) => {
+    // SETUP
+    // const cA = [TestHelpers.createCharacterInCostume("A", "tiger")];
+    const l1 = TestHelpers.createShot("park", [])
+    const l2 = TestHelpers.createShot("beach", [])
+    // EXECUTION
+    const grouped = groupShots([l1, l2]);
+    // INTERPRETATION
+    let msg = null;
+    if (grouped.length !== 2) {
+      msg = "Should not have merged as shots have different locations";
     }
     return TestHelpers.printTestResult(testName, msg);
   });

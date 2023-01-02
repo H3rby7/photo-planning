@@ -10,7 +10,7 @@ export function groupShots(shots) {
   const grouped = shots
     // group by locations and same amount of people
     .reduce((arr, nextShot) => {
-      const l = arr.indexOf(s => shotsHaveSameLocationsSameCharactersInCostumes(s, nextShot));
+      const l = arr.findIndex(s => shotsHaveSameLocationsSameCharactersInCostumes(s, nextShot));
       if (l < 0) {
         arr.push(nextShot);
       } else {
@@ -20,6 +20,7 @@ export function groupShots(shots) {
         const n = new Shot(nName, oldShot.characters, props, oldShot.location);
         arr.splice(l, 1, n);
       }
+      return arr;
     }, []);
   console.log(`# of shots after grouping: ${grouped.length}`);
   return grouped;
@@ -33,7 +34,7 @@ export function groupShots(shots) {
  * 
  * @returns {boolean} true if they are the same; false if there is a difference
  */
-export function shotsHaveSameLocationsSameCharactersInCostumes() {
+export function shotsHaveSameLocationsSameCharactersInCostumes(a, b) {
   if (a.location !== b.location) {
     return false;
   }
