@@ -20,4 +20,18 @@ export function addTests_grouping(TESTS) {
     return TestHelpers.printTestResult(testName, msg);
   });
 
+  TESTS.add("GROUPING SAME CHARACTERS SAME COSTUMES -> GIVEN: [A] and [A] EXPECTING true", (testName) => {
+    // SETUP
+    const cA = [TestHelpers.createCharacterInCostume("A", "tiger")];
+    const cB = [TestHelpers.createCharacterInCostume("A", "tiger")];
+    // EXECUTION
+    const result = shotsHaveSameCharactersInCostumes(cA, cB);
+    // INTERPRETATION
+    let msg = null;
+    if (!result) {
+      msg = "Should have same characters (as they are both A in tiger costume)";
+    }
+    return TestHelpers.printTestResult(testName, msg);
+  });
+
 }

@@ -142,14 +142,18 @@ export class CharacterInCostume {
    */
   equals(other) {
     if (this.character.characterName !== other.character.characterName) {
+      // console.log(`${this.character.characterName} is not ${other.character.characterName}`);
       return false;
     }
     if (this.character.person.name !== other.character.person.name) {
+      // console.log(`${this.character.person.name} is not ${other.character.person.name}`);
       return false;
     }
     if (this.costume !== other.costume) {
+      // console.log(`${this.costume} is not ${other.costume}`);
       return false;
     }
+    // console.log(`Are equal`);
     return true;
   }
 }

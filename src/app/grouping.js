@@ -52,15 +52,17 @@ export function shotsHaveSameCharactersInCostumes(a, b) {
   const _b = [...b];
   for (let i = 0; i < a.length; i++) {
     const cincA = a[i];
-    const positionInB = _b.indexOf(cincB => cincA.equals(cincB));
+    const positionInB = _b.findIndex(cincB => cincA.equals(cincB));
     if (positionInB < 0) {
       // a character in costume is in A, but not in B
+      // console.log(`${JSON.stringify(cincA)} of A is not list B (${JSON.stringify(_b)})`);
       return false;
     }
     _b.splice(positionInB, 1);
   }
   if (_b.length) {
     // a character in B is not in A
+    // console.log(`Characters ${JSON.stringify(_b)} are not in list A ${JSON.stringify(a)}`);
     return false;
   }
   return true;
