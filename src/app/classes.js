@@ -132,6 +132,26 @@ export class CharacterInCostume {
       costume: this.costume
     }
   }
+
+  /**
+   * Check if equals (same character, same person, same costume)
+   * 
+   * @param {!CharacterInCostume} other
+   * 
+   * @returns {boolean} true if the combination of character, person and costume is the same; else - false
+   */
+  equals(other) {
+    if (this.character.characterName !== other.character.characterName) {
+      return false;
+    }
+    if (this.character.person.name !== other.character.person.name) {
+      return false;
+    }
+    if (this.costume !== other.costume) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export class Character {

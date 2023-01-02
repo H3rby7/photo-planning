@@ -1,4 +1,5 @@
 import { InputData } from "../app/classes.js";
+import { addTests_grouping } from "./grouping.js";
 import { addTests_rateActorIdle } from "./rate_costOfActorIdle.js";
 import { addTests_rateShotChange } from "./rate_shotlist.js";
 import { addTests_rule_actorNeedsChange } from "./rule_actorNeedsChange.js";
@@ -47,12 +48,13 @@ export function runTests() {
       msg = "Data should not change over load and save!";
     }
     return TestHelpers.printTestResult(testName, msg);
-  })
+  });
 
   addTests_rule_locationChange(TESTS);
   addTests_rule_actorNeedsChange(TESTS);
   addTests_rateShotChange(TESTS);
   addTests_rateActorIdle(TESTS);
+  addTests_grouping(TESTS);
 
   TESTS.runTests();
 
