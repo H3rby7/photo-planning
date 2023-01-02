@@ -1,5 +1,6 @@
 import { PermutationState, permute } from "../lib/helper_functions.js";
 import { InputData, Shot, Best } from "./classes.js";
+import { groupShots } from "./grouping.js";
 import { ShotChangeMap } from "./memory.js";
 import { Prices, rateCostOfActorIdle } from "./rate.js";
 import { OptimizationState } from "./saveLoad.js";
@@ -23,7 +24,9 @@ export function optimizeShotList(inputData, filePath) {
     alert("Please pass a filePath to store updates!");
     return;
   }
-  preSortShotList(inputData);
+
+  prepareShotList(inputData);
+
   const startTime = Date.now();
   console.log(`Started at ${new Date(startTime).toLocaleTimeString()}`);
 
@@ -109,8 +112,13 @@ export function rateShotList(shots, prices, shotChangeMap, maximum) {
 }
 
 /**
+ * Run some optimizations to improve the data for the algorithm
+ * 
  * @param {!InputData} inputData containing the photoshooting infos
  */
-function preSortShotList(inputData) {
+function prepareShotList(inputData) {
+  console.log(`# of shots before grouping: ${inputData.shots.length}`);
+  inputData.shots = groupShots(inputData.shots);
+  console.log(`# of shots after grouping: ${inputData.shots.length}`);
   inputData.shots.sort((a, b) => a.characters.length > b.characters.length);
 }

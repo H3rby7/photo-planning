@@ -3,10 +3,11 @@ import { CharacterInCostume, Shot } from "./classes.js";
 /**
  * Group shots that have the same people in the same costumes in the same location to reduce complexity.
  * 
- * @param {!Shot[]} shots 
+ * @param {!Shot[]} shots
+ * 
+ * @returns {!Shot[]} a new shotlist with grouped shots
  */
 export function groupShots(shots) {
-  console.log(`# of shots before grouping: ${shots.length}`);
   const grouped = shots
     // group by locations and same amount of people
     .reduce((arr, nextShot) => {
@@ -18,7 +19,6 @@ export function groupShots(shots) {
       }
       return arr;
     }, []);
-  console.log(`# of shots after grouping: ${grouped.length}`);
   return grouped;
 }
 
