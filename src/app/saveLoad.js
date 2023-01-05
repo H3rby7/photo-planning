@@ -23,6 +23,15 @@ export class OptimizationState {
     fs.writeFileSync(buildPathToSaveFile(path), this.toJson());
   }
 
+  /**
+   * Save the result (uses different fileName)
+   * 
+   * @param {!string} path to save the file to
+   */
+  saveResult(path) {
+    fs.writeFileSync(resolve(`${path.replace(".json", "-RESULT.json")}`), this.toJson());
+  }
+
   print() {
     const ps = this.permutationState;
     console.log(`Continuing with i=${ps.i}; k=${ps.k}; c=[${ps.c}]`);

@@ -5,9 +5,9 @@ import { ShotChangeMap } from "./memory.js";
 import { Prices, rateCostOfActorIdle } from "./rate.js";
 import { OptimizationState } from "./saveLoad.js";
 
-const locationChangePrice = 4;
-const costumeChangePrice = 7;
-const actorIdlePrice = 2;
+const locationChangePrice = 5;
+const costumeChangePrice = 3;
+const actorIdlePrice = 1;
 
 export const prices = new Prices(locationChangePrice, costumeChangePrice, actorIdlePrice);
 
@@ -46,6 +46,7 @@ export function optimizeShotList(inputData, filePath) {
   console.log(`Took ${timeTaken} millis and ended at at ${new Date(finishTime).toLocaleTimeString()}`);
   best.print();
   console.log(best.shots);
+  new OptimizationState(null, best).saveResult(filePath);
   OptimizationState.clearProgress(filePath);
 
   /**
