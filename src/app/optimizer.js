@@ -25,20 +25,27 @@ export function optimizeShotList(inputData, filePath) {
     return;
   }
 
-  prepareShotList(inputData);
+  let best;
+
+  // try if we have a saved state we can work with.
+  const loadedState = OptimizationState.attemptLoadProgress(filePath);
+  if (!loadedState) {
+    prepareShotList(inputData);
+    best = new Best([]);
+  } else {
+    best = loadedState.best;
+  }
+  const shots = loadedState ? loadedState.permutationState.inputArr : inputData.shots;
+  console.log(`Working with ${JSON.stringify(shots)}`);
 
   const startTime = Date.now();
   console.log(`Started at ${new Date(startTime).toLocaleTimeString()}`);
 
   const shotChangeMap = new ShotChangeMap();
-  shotChangeMap.addShotList(inputData.shots, prices);
-
-  // try if we have a saved state we can work with.
-  const loadedState = OptimizationState.attemptLoadProgress(filePath);
-  let best = loadedState ? loadedState.best : new Best([]);
+  shotChangeMap.addShotList(shots, prices);
 
   console.log(`Starting to permute`);
-  permute(inputData.shots, ratePermutation, handleUpdate, loadedState ? loadedState.permutationState : null);
+  permute(shots, ratePermutation, handleUpdate, loadedState ? loadedState.permutationState : null);
 
   console.log("********** RESULT **********");
   const finishTime = Date.now(); 

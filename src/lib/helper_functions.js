@@ -3,11 +3,13 @@ export class PermutationState {
   /**
    * @see permute function arguments
    * 
+   * @param {!any[]} inputArr as used in @see permute
    * @param {!number[]} c as used in @see permute
    * @param {!number} i as used in @see permute
    * @param {!number} k as used in @see permute
    */
-  constructor (c, i, k) {
+  constructor (inputArr, c, i, k) {
+    this.inputArr = inputArr;
     this.c = c;
     this.i = i;
     this.k = k;
@@ -59,7 +61,7 @@ export function permute(inputArr, cb, updateHook, savedState) {
   while (i < length) {
     lastUpdateSince++;
     if (lastUpdateSince === 10000000) {
-      updateHook(new PermutationState([...c], i, k));
+      updateHook(new PermutationState([...inputArr], [...c], i, k));
       lastUpdateSince = 0;
     }
     if (c[i] < i) {

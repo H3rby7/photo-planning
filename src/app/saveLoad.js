@@ -77,6 +77,7 @@ export class OptimizationState {
         shots: this.best.shots,
       },
       permutationState: {
+        inputArr: this.permutationState.inputArr,
         c: this.permutationState.c,
         i: this.permutationState.i,
         k: this.permutationState.k,
@@ -93,14 +94,14 @@ export class OptimizationState {
   static fromJson(json) {
     const ps = json.permutationState;
     const best = json.best;
-    if (!ps || !ps.hasOwnProperty("c") || !ps.hasOwnProperty("i") || !ps.hasOwnProperty("k")) {
+    if (!ps || !ps.hasOwnProperty("inputArr") || !ps.hasOwnProperty("c") || !ps.hasOwnProperty("i") || !ps.hasOwnProperty("k")) {
       throw "ERROR LOADING SAVESTATE - DATA FOR PERMUTATION IS INVALID! --> " + JSON.stringify(ps);
     }
     if (!best || !best.hasOwnProperty("shots") || !best.hasOwnProperty("switchCosts") || !best.hasOwnProperty("idleCosts")) {
       throw "ERROR LOADING SAVESTATE - DATA FOR BEST IS INVALID! --> " + JSON.stringify(best);
     }
     return new OptimizationState(
-      new PermutationState(ps.c, ps.i, ps.k), 
+      new PermutationState(ps.inputArr, ps.c, ps.i, ps.k), 
       new Best(best.shots, best.switchCosts, best.idleCosts)
     );
   }
