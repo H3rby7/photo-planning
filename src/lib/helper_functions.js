@@ -60,7 +60,7 @@ export function permute(inputArr, cb, updateHook, savedState) {
 
   while (i < length) {
     lastUpdateSince++;
-    if (lastUpdateSince === 10000000) {
+    if (lastUpdateSince === 100000000) {
       updateHook(new PermutationState([...inputArr], [...c], i, k));
       lastUpdateSince = 0;
     }

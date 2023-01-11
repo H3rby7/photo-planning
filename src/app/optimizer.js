@@ -61,6 +61,11 @@ export function optimizeShotList(inputData, filePath) {
    * @param {!Shot[]} shots 
    */
   function ratePermutation(shots) {
+    if (inverseIsSmaller(shots)) {
+      // We do not need to check 'mirrored' setups.
+      // So we only calculate the 'smaller' side of the mirror.
+      return;
+    }
     const rating = rateShotList(shots, prices, shotChangeMap, best.totalCosts);
     if (rating < best.totalCosts) {
       const switchCosts = calculateCostOfShotChanges(shots, shotChangeMap, Infinity);
@@ -129,4 +134,15 @@ function prepareShotList(inputData) {
   inputData.shots = groupShots(inputData.shots);
   console.log(`# of shots after grouping: ${inputData.shots.length}`);
   inputData.shots.sort((a, b) => a.characters.length > b.characters.length);
+}
+
+/**
+ * Check if the inverse of the shot order is 'lexiographically' smaller.
+ * By checking the shot's ID.
+ * E.G. (using numerical IDs) [3,2,4,1]'s inverse is [1,4,2,3] and lexically smaller.
+ * 
+ * @param {!Shot[]} shots
+ */
+function inverseIsSmaller(shots) {
+  return shots[shots.length - 1].id < shots[0].id;
 }
